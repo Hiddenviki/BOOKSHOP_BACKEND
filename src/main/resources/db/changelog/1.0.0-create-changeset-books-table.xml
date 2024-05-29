@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="create_table_books" author="vveselkova">
+        <preConditions onFail="MARK_RAN">
+            <!--<and>-->
+                <not>
+                    <!-- надо проверить, если есть таблица books -->
+                    <tableExists tableName="books"/>
+                    <!-- и если есть это для id -->
+                <!--<sequenceExists sequenceName="books_seq"/>-->
+                </not>
+        <!--</and>-->
+
+        </preConditions>
+        <!-- Прописываем создание таблицы books-->
+        <createTable tableName="books">
+            <!--Создаем поля -->
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="brand" type="VARCHAR(255)"/>
+            <column name="cover" type="VARCHAR(50)"/>
+            <column name="author" type="VARCHAR(255)"/>
+            <column name="count" type="INTEGER"/>
+        </createTable>
+        <!--Ну и секвенцию сюда -->
+<!--        <createSequence sequenceName="books_seq"/>-->
+    </changeSet>
+</databaseChangeLog>

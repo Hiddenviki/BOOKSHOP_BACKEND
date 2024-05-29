@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres_Bookshop
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: vveselkova
+      POSTGRES_DB: BookshopDB
+    ports:
+      - 5432:5432
+    networks:
+      - bookshop_network
+
+  adminer:
+    container_name: adminer_Bookshop
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - bookshop_network
+    depends_on:
+      - postgres
+
+networks:
+  bookshop_network:
+    driver: bridge
