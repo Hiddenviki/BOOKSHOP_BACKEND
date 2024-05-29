@@ -1,0 +1,22 @@
+spring:
+  liquibase:
+    change-log: classpath:db/changelog/changelog.xml
+  application:
+    name: Bookshop
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/BookshopDB
+    username: vveselkova
+    password: password
+    driverClassName: org.postgresql.Driver
+
+
+server:
+  port: 8081
+
+
+
+

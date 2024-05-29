@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+        <!-- Добавим 1 книгу  -->
+    <changeSet id="insert-into-books" author="vveselkova">
+        <preConditions  onFail="MARK_RAN">
+            <sqlCheck  expectedResult="0">select count(*) from books</sqlCheck>
+        </preConditions>
+        <comment>Проверяем что в нашей таблице 0 книги</comment>
+        <insert tableName="books">
+            <column name="name" value="Капитанская дочка"/>
+            <column name="brand" value="РусЛит"/>
+            <column name="cover" value="HARD"/>
+            <column name="author" value="Александр Сергеевич Пушкин"/>
+            <column name="count" value="14"/>
+        </insert>
+        </changeSet>
+        </databaseChangeLog>
