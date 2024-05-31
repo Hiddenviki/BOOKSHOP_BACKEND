@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="add_foreign_key_to_books" author="vveselkova">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <!-- надо проверить, если есть FK fk_author_id -->
+                <foreignKeyConstraintExists foreignKeyName="fk_author_id"/>
+            </not>
+        </preConditions>
+        <!--Добавляю внешнию клч fk_author_id у таблицы books-->
+        <addForeignKeyConstraint baseTableName="books"
+                                 baseColumnNames="author_id"
+                                 constraintName="fk_author_id"
+                                 referencedTableName="authors"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>

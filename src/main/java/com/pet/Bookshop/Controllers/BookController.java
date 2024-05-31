@@ -4,6 +4,7 @@ import com.pet.Bookshop.DTO.BookDto;
 import com.pet.Bookshop.Entity.Book;
 import com.pet.Bookshop.Service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,24 +31,17 @@ public class BookController {
         return bookService.createBook(bookDto);
     }
 
-    //почему не доступно @DeleteMapping??
-//    @PostMapping
-//    public void deleteBookById(@RequestBody Long id) {
-//        bookService.deleteBookById(id);
-//    }
     @DeleteMapping("/{id}")
     public void deleteBookById(@PathVariable Long id) {
         bookService.deleteBookById(id);
     }
 
+    @PatchMapping("/{id}")
+    public BookDto editBookById(@PathVariable Long id, @RequestBody BookDto bookDto){
+        bookDto.setId(id); // Устанавливаем id входящего объекта
+        //получается кладем изменённую книгу но со старым айди
+        return bookService.editBookById(bookDto);
 
-    //добавить изменение информации о книге /books/{id}/edit потом
-    //@PatchMapping("/{id}")
-    //public Book editBookById(@PathVariable Long id){
-
-    //    return ;
-    //}
-
-
+    }
 
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="drop_author_column" author="vveselkova">
+        <preConditions onFail="MARK_RAN">
+            <!-- вот ее будем удалять если она есть -->
+            <columnExists columnName="author" tableName="books"/>
+        </preConditions>
+        <!-- удаляю старую колонку author-->
+        <dropColumn tableName="books" columnName="author"/>
+    </changeSet>
+</databaseChangeLog>

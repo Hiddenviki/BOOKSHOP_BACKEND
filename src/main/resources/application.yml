@@ -3,10 +3,6 @@ spring:
     change-log: classpath:db/changelog/changelog.xml
   application:
     name: Bookshop
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
   datasource:
     url: jdbc:postgresql://localhost:5432/BookshopDB
     username: vveselkova

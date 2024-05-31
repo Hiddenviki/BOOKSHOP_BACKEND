@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookDto {
     @Id
-    private int id;
-    private String  name;
-    private String brand;
-    private Cover cover;
-    private String author;
-    private Integer count;
+    private Long id;
+    private String  name; //название книги
+    private String brand; //название издания
+    private Cover cover; //тип обложки
+    private Long authorId; //id автора
+    private Integer count; //количество книг
+
 }

@@ -6,15 +6,10 @@
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet id="create_table_books" author="vveselkova">
         <preConditions onFail="MARK_RAN">
-            <!--<and>-->
-                <not>
+            <not>
                     <!-- надо проверить, если есть таблица books -->
-                    <tableExists tableName="books"/>
-                    <!-- и если есть это для id -->
-                <!--<sequenceExists sequenceName="books_seq"/>-->
-                </not>
-        <!--</and>-->
-
+                <tableExists tableName="books"/>
+            </not>
         </preConditions>
         <!-- Прописываем создание таблицы books-->
         <createTable tableName="books">
@@ -30,7 +25,5 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
             <column name="author" type="VARCHAR(255)"/>
             <column name="count" type="INTEGER"/>
         </createTable>
-        <!--Ну и секвенцию сюда -->
-<!--        <createSequence sequenceName="books_seq"/>-->
     </changeSet>
 </databaseChangeLog>
