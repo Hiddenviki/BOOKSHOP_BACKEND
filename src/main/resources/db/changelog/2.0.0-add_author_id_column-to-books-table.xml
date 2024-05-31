@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="add_author_id_column" author="vveselkova">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <!-- надо проверить, если нет такой колонки -->
+                <columnExists columnName="author_id" tableName="books"/>
+            </not>
+        </preConditions>
+        <!--добавляю колонку author_id в таблицу books-->
+        <addColumn tableName="books" >
+            <column name="author_id" type="BIGINT"/>
+        </addColumn>
+<!--        &lt;!&ndash; без id автора нельзя &ndash;&gt;-->
+        <addNotNullConstraint tableName="books" columnName="author_id"/>
+    </changeSet>
+</databaseChangeLog>
