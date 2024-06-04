@@ -7,6 +7,7 @@ import com.pet.Bookshop.Repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,18 +37,15 @@ public class AuthorService {
         return authorMapper.toDto(author);
     }
 
-//    public AuthorDto createAuthor(AuthorDto authorDto) {
-//        author = authorRepository.save(author); //сохраняю
-//        AuthorDto authorDto = authorMapper.toDto(author);
-//        authorDto.
-//        AuthorDto authorDto = authorMapper.setAuthorName(authorDto,author);
-//
-//
-//
-//        log.info("AuthorService-createAuthor: Создали нового автора");
-//        return authorMapper.toDto(author); //но возвращаю все-равно ДТО
-//    }
+    public Author getAuthor(Long id) {
+        log.info("AuthorService-getAuthorById: id " + id);
 
+        return authorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Не нашли автора с таким айди: " + id));
+
+    }
+
+    @Transactional
     public AuthorDto createAuthor(Author author) {
         if (author.getFirstName() == null || author.getLastName() == null) {
             throw new IllegalArgumentException("Имя и фамилия автора не могут быть null");
@@ -61,6 +59,8 @@ public class AuthorService {
 
         return authorMapper.toDto(savedAuthor); // Возвращаем DTO сохраненного автора
     }
+
+
 
 
 }

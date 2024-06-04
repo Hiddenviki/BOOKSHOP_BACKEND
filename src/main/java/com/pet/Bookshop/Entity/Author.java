@@ -1,9 +1,10 @@
 package com.pet.Bookshop.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -13,16 +14,21 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "authors")
+@Valid
 public class Author {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id=2L;
+    private Long id;
 
-    @Column(name = "first_name")
-    private String firstName="defaultFirstName";
+    @NotNull(message = "Заполните имя автора")
+    @NotBlank(message = "Заполните имя автора")
+    @Column(name = "first_name", nullable = false, length = 50)
+    private String firstName;
 
-    @Column(name = "last_name")
-    private String lastName="defaultLastName";
+    @NotNull(message = "Заполните Фамилию автора")
+    @NotBlank(message = "Заполните Фамилию автора")
+    @Column(name = "last_name", nullable = false, length = 50)
+    private String lastName;
 
     //у одного автора много книг
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true) //если книга не ссылается ни на одного автора то ее надо удалить
