@@ -1,16 +1,14 @@
 package com.pet.Bookshop.Service;
 
-import com.pet.Bookshop.DTO.AuthorDto;
+
 import com.pet.Bookshop.DTO.BookDto;
-import com.pet.Bookshop.Entity.Author;
 import com.pet.Bookshop.Entity.Book;
-import com.pet.Bookshop.Mapper.AuthorMapper;
-import com.pet.Bookshop.Repository.AuthorRepository;
-import com.pet.Bookshop.Repository.BookRepository;
 import com.pet.Bookshop.Mapper.BookMapper;
+import com.pet.Bookshop.Repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +19,9 @@ import java.util.stream.Collectors;
 public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
-    private final AuthorMapper authorMapper;
-    private final AuthorRepository authorRepository;
+    private final AuthorService authorService;
+    //private final Validator validator;
+
 
     public List<BookDto> getBooks() {
         log.info("BookService-getBooks: Смотрим на все книги");
@@ -32,53 +31,55 @@ public class BookService {
         return books.stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
-}
+    }
 
     public BookDto getBookById(Long id) {
-        log.info("BookService-getBookById: Показана книга с id "+id);
+        log.info("BookService-getBookById: Показана книга с id {}", id);
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Не нашли книгу с таким айди: " + id));
         //перед возвратом делаю ДТО
         return bookMapper.toDto(book);
     }
 
-    //тут как-то надо проверить если id автора без значения (нет автора)
+
+    @Transactional
     public BookDto createBook(BookDto bookDto) {
+        log.info("-----------------\nBookService-createBook: в ДТО {} id автора {}", bookDto.getName(), bookDto.getAuthorId());
+
         Book book = bookMapper.toBook(bookDto); //сначала книгу из ДТО
-        book = bookRepository.save(book); //сохраняю
+
+        // Проводим проверку перед сохранением книги в базу
+//        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+//        if (!violations.isEmpty()) {
+//            throw new RuntimeException("Невозможно создать книгу из-за ошибок валидации: " + violations);
+//        }
+
+        book.setAuthor(authorService.getAuthor(bookDto.getAuthorId())); //устанавливаю автора
+        bookRepository.save(book); //сохраняю
+
         log.info("BookService-createBook: Создали новую книгу");
-        return bookMapper.toDto(book); //но возвращаю все-равно ДТО
+
+        return bookMapper.toDto(book); //возвращаю ДТО
     }
 
-    //тут можно без DTO?
     public void deleteBookById(Long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Не нашли книгу с таким айди: " + id));
-        log.info("BookService-deleteBookById: Удалили книгу с id "+id);
-        bookRepository.delete(book);
+        bookRepository.deleteById(id);
+        log.info("BookService-deleteBookById: Удалили книгу с id {}", id);
     }
 
 
-    //проверить правильно ли кладется автор что там с автором вообще
+    @Transactional
     public BookDto editBookById(BookDto bookDto) {
+        log.info("BookService-editBookByI: редактирование книги с id {}", bookDto.getId());
         //ищу такую книгу вдруг такой нет
         Book book = bookRepository.findById(bookDto.getId())
-                .orElseThrow(() -> new RuntimeException("Не нашли книгу с таким айди: " + bookDto.getId()));
+                .orElseThrow(() -> new RuntimeException("Не нашли книгу с таким айди(или забыли поменять аргумент в запросе): " + bookDto.getId()));
 
-        //кладём новые значения
-        book.setName(bookDto.getName());
-        book.setBrand(bookDto.getBrand());
-        book.setCover(bookDto.getCover());
-        Long authorId = bookDto.getAuthorId(); //берем id автора
-        //надо найти автора по id
-        Author author = (authorRepository.findById(authorId))
-                .orElseThrow(()->new RuntimeException("не нашли автора по id "+authorId)); //тут должен быть автор хз дто или нет пока
-        //и положить его сюда
-        book.setAuthor(author);
-        book.setCount(bookDto.getCount());
+        bookMapper.update(book, bookDto);//кладём новые значения
+
         //надо сохранить перед возвращением
         book = bookRepository.save(book);
-        log.info("BookService-editBookById: Поменяли книгу с id "+bookDto.getId());
+        log.info("BookService-editBookById: Поменяли книгу с id {}", bookDto.getId());
         //возвращаю в виде ДТО
         return bookMapper.toDto(book);
     }
