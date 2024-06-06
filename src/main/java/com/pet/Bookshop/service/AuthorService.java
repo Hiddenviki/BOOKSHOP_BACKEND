@@ -1,9 +1,9 @@
-package com.pet.Bookshop.Service;
+package com.pet.Bookshop.service;
 
-import com.pet.Bookshop.DTO.AuthorDto;
-import com.pet.Bookshop.Entity.Author;
-import com.pet.Bookshop.Mapper.AuthorMapper;
-import com.pet.Bookshop.Repository.AuthorRepository;
+import com.pet.Bookshop.model.dto.AuthorDto;
+import com.pet.Bookshop.model.entity.Author;
+import com.pet.Bookshop.mapper.AuthorMapper;
+import com.pet.Bookshop.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -44,6 +44,7 @@ public class AuthorService {
                 .orElseThrow(() -> new RuntimeException("Не нашли автора с таким айди: " + id));
 
     }
+
 
     @Transactional
     public AuthorDto createAuthor(Author author) {

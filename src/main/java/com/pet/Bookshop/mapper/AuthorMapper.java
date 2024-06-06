@@ -1,8 +1,8 @@
-package com.pet.Bookshop.Mapper;
+package com.pet.Bookshop.mapper;
 
-import com.pet.Bookshop.DTO.AuthorDto;
-import com.pet.Bookshop.Entity.Author;
-import com.pet.Bookshop.Entity.Book;
+import com.pet.Bookshop.model.dto.AuthorDto;
+import com.pet.Bookshop.model.entity.Author;
+import com.pet.Bookshop.model.entity.Book;
 import org.mapstruct.*;
 
 import java.util.List;

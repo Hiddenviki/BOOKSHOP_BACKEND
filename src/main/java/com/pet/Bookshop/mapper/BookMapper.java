@@ -1,7 +1,7 @@
-package com.pet.Bookshop.Mapper;
+package com.pet.Bookshop.mapper;
 
-import com.pet.Bookshop.Entity.Book;
-import com.pet.Bookshop.DTO.BookDto;
+import com.pet.Bookshop.model.entity.Book;
+import com.pet.Bookshop.model.dto.BookDto;
 import org.mapstruct.*;
 
 

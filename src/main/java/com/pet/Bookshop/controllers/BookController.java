@@ -1,7 +1,8 @@
-package com.pet.Bookshop.Controllers;
+package com.pet.Bookshop.controllers;
 
-import com.pet.Bookshop.DTO.BookDto;
-import com.pet.Bookshop.Service.BookService;
+import com.pet.Bookshop.model.dto.BookDto;
+import com.pet.Bookshop.model.filter.BookFilter;
+import com.pet.Bookshop.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,11 @@ public class BookController {
     @PatchMapping
     public BookDto editBookById(@Valid @RequestBody BookDto bookDto) {
         return bookService.editBookById(bookDto);
+    }
+
+    @GetMapping("/filter")
+    public List<BookDto> filter(@RequestBody BookFilter filter) {
+        return bookService.filterBooks(filter);
     }
 
     //отправляем сообщение об ошибках на фронт

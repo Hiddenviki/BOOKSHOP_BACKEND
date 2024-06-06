@@ -1,8 +1,8 @@
-package com.pet.Bookshop.Controllers;
+package com.pet.Bookshop.controllers;
 
-import com.pet.Bookshop.DTO.AuthorDto;
-import com.pet.Bookshop.Entity.Author;
-import com.pet.Bookshop.Service.AuthorService;
+import com.pet.Bookshop.model.dto.AuthorDto;
+import com.pet.Bookshop.model.entity.Author;
+import com.pet.Bookshop.service.AuthorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

@@ -1,6 +1,6 @@
-package com.pet.Bookshop.Entity;
+package com.pet.Bookshop.model.entity;
 
-import com.pet.Bookshop.Enum.Cover;
+import com.pet.Bookshop.model.enums.Cover;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
