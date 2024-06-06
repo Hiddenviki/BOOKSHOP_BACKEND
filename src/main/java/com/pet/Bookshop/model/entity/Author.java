@@ -1,4 +1,4 @@
-package com.pet.Bookshop.Entity;
+package com.pet.Bookshop.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;

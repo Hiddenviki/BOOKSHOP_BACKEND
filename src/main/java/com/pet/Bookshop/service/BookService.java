@@ -1,10 +1,11 @@
-package com.pet.Bookshop.Service;
+package com.pet.Bookshop.service;
 
 
-import com.pet.Bookshop.DTO.BookDto;
-import com.pet.Bookshop.Entity.Book;
-import com.pet.Bookshop.Mapper.BookMapper;
-import com.pet.Bookshop.Repository.BookRepository;
+import com.pet.Bookshop.mapper.BookMapper;
+import com.pet.Bookshop.model.dto.BookDto;
+import com.pet.Bookshop.model.entity.Book;
+import com.pet.Bookshop.model.filter.BookFilter;
+import com.pet.Bookshop.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final AuthorService authorService;
-    //private final Validator validator;
-
+    //private final CustomBookRepository customBookRepository;
 
     public List<BookDto> getBooks() {
         log.info("BookService-getBooks: Смотрим на все книги");
@@ -47,12 +47,6 @@ public class BookService {
         log.info("-----------------\nBookService-createBook: в ДТО {} id автора {}", bookDto.getName(), bookDto.getAuthorId());
 
         Book book = bookMapper.toBook(bookDto); //сначала книгу из ДТО
-
-        // Проводим проверку перед сохранением книги в базу
-//        Set<ConstraintViolation<Book>> violations = validator.validate(book);
-//        if (!violations.isEmpty()) {
-//            throw new RuntimeException("Невозможно создать книгу из-за ошибок валидации: " + violations);
-//        }
 
         book.setAuthor(authorService.getAuthor(bookDto.getAuthorId())); //устанавливаю автора
         bookRepository.save(book); //сохраняю
@@ -84,4 +78,9 @@ public class BookService {
         return bookMapper.toDto(book);
     }
 
+    public List<BookDto> filterBooks(BookFilter filter) {
+        log.info("BookService-filterBooks: фильтры: {}\n ", filter.toString());
+        List<Book> bookList = bookRepository.findByFilter(filter);
+        return bookList.stream().map(bookMapper::toDto).collect(Collectors.toList());
+    }
 }

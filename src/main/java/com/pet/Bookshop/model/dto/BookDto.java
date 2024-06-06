@@ -1,6 +1,6 @@
-package com.pet.Bookshop.DTO;
+package com.pet.Bookshop.model.dto;
 
-import com.pet.Bookshop.Enum.Cover;
+import com.pet.Bookshop.model.enums.Cover;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

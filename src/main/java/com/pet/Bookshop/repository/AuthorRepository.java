@@ -1,6 +1,6 @@
-package com.pet.Bookshop.Repository;
+package com.pet.Bookshop.repository;
 
-import com.pet.Bookshop.Entity.Author;
+import com.pet.Bookshop.model.entity.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
