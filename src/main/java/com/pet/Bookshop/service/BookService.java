@@ -6,8 +6,10 @@ import com.pet.Bookshop.model.dto.BookDto;
 import com.pet.Bookshop.model.entity.Book;
 import com.pet.Bookshop.model.filter.BookFilter;
 import com.pet.Bookshop.repository.BookRepository;
+import com.pet.Bookshop.repository.BookSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final AuthorService authorService;
-    //private final CustomBookRepository customBookRepository;
+
 
     public List<BookDto> getBooks() {
         log.info("BookService-getBooks: Смотрим на все книги");
@@ -80,7 +82,11 @@ public class BookService {
 
     public List<BookDto> filterBooks(BookFilter filter) {
         log.info("BookService-filterBooks: фильтры: {}\n ", filter.toString());
-        List<Book> bookList = bookRepository.findByFilter(filter);
+
+        Specification<Book> spec = BookSpecification.buildSpecification(filter);
+        List<Book> bookList = bookRepository.findAll(spec);
+        //List<Book> bookList = bookRepository.findByFilter(filter);
+
         return bookList.stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
 }

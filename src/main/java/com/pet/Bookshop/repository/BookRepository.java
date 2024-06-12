@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Long>, CustomBookRepository, JpaSpecificationExecutor<Book> {
+public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
 
 }
+
