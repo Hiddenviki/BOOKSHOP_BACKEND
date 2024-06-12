@@ -1,8 +1,11 @@
 package com.pet.Bookshop.mapper;
 
-import com.pet.Bookshop.model.entity.Book;
 import com.pet.Bookshop.model.dto.BookDto;
-import org.mapstruct.*;
+import com.pet.Bookshop.model.entity.Book;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.springframework.stereotype.Component;
 
 
 @Mapper

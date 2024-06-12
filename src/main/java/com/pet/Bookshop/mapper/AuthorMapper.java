@@ -3,7 +3,10 @@ package com.pet.Bookshop.mapper;
 import com.pet.Bookshop.model.dto.AuthorDto;
 import com.pet.Bookshop.model.entity.Author;
 import com.pet.Bookshop.model.entity.Book;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
