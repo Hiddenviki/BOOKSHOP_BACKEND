@@ -9,6 +9,7 @@ import com.pet.Bookshop.repository.BookRepository;
 import com.pet.Bookshop.repository.BookSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,19 +19,17 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class BookService {
     private final BookRepository bookRepository;
-    private final BookMapper bookMapper;
+    private final BookMapper bookMapper; //почему тут неправильно? оно не может быть final?
     private final AuthorService authorService;
 
 
     public List<BookDto> getBooks() {
         log.info("BookService-getBooks: Смотрим на все книги");
-        //беру всё из репозитория книг
-        List<Book> books = bookRepository.findAll();
         //пробегаюсь по листу и делаю из него ДТО а потом опять делаю лист
-        return books.stream()
+        return bookRepository.findAll().stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
     }

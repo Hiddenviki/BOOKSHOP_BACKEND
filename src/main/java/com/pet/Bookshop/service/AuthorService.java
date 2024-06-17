@@ -6,7 +6,7 @@ import com.pet.Bookshop.model.entity.Author;
 import com.pet.Bookshop.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,17 +15,15 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class AuthorService {
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
 
     public List<AuthorDto> getAllAuthors() {
         log.info("AuthorService-getAllAuthors: Смотрим на всех авторов");
-        //беру всё из репозитория
-        List<Author> authors = authorRepository.findAll();
         //пробегаюсь по листу и делаю из него ДТО а потом опять делаю лист
-        return authors.stream()
+        return authorRepository.findAll().stream()
                 .map(authorMapper::toDto)
                 .collect(Collectors.toList());
     }
