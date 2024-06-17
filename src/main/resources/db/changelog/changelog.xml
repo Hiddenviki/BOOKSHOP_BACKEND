@@ -9,5 +9,6 @@
         <include file="2.0.1-create-authors-table.xml" relativeToChangelogFile="true"/>
         <include file="2.0.2-add_foreign_key_to_books-table.xml" relativeToChangelogFile="true"/>
         <include file="2.0.3-drop-column-authors-in-books-table.xml" relativeToChangelogFile="true"/>
+        <include file="3.0.0-add-users-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
