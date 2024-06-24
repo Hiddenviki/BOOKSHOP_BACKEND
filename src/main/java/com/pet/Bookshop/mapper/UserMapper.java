@@ -10,8 +10,6 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-//@Mapper(unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
-//        componentModel = "spring", uses = {BCryptPasswordEncoder.class})
 @Mapper
 public abstract class UserMapper {
 
@@ -31,7 +29,6 @@ public abstract class UserMapper {
     @Mapping(target = "login", source = "login")
     @Mapping(target = "active", constant = "true")
     @Mapping(target = "role", expression = "java(com.pet.Bookshop.model.enums.Role.GUEST)")
-    //@Mapping(target = "password", expression = "java(dto.isPasswordsMatch() ? bCryptPasswordEncoder.encode(dto.getPassword1()) : null)")
     public abstract User toUserFromSignUpDto(SignUpDto dto);
 
     //перед вызовом мапинга устанавливаем захешированый пароль

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "books")
-public class Book{
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,4 +35,15 @@ public class Book{
     @Column(name = "count", nullable = false, length = 50)
     private Integer count;
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", brand='" + brand + '\'' +
+                ", cover=" + cover +
+                ", author=" + author.toString() +
+                ", count=" + count +
+                '}';
+    }
 }
