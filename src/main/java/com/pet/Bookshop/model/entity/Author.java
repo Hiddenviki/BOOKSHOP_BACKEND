@@ -17,7 +17,8 @@ import java.util.List;
 @Valid
 public class Author {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    //не генерируется потому что туда передается id юзера
+    //@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @NotNull(message = "Заполните имя автора")
@@ -31,8 +32,13 @@ public class Author {
     private String lastName;
 
     //у одного автора много книг
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true) //если книга не ссылается ни на одного автора то ее надо удалить
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    //если книга не ссылается ни на одного автора то ее надо удалить
     private List<Book> books = new ArrayList<>();
 
 
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
 }

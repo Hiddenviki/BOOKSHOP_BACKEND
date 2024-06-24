@@ -12,7 +12,7 @@
             </not>
         </preConditions>
         <createTable tableName="authors">
-            <column autoIncrement="true" name="id" type="BIGINT">
+            <column autoIncrement="false" name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="first_name" type="VARCHAR(255)">

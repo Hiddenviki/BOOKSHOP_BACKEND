@@ -2,33 +2,30 @@ package com.pet.Bookshop.controllers;
 
 import com.pet.Bookshop.model.dto.SignInDto;
 import com.pet.Bookshop.model.dto.SignUpDto;
+import com.pet.Bookshop.security.userdetails.MyUserDetailService;
 import com.pet.Bookshop.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final MyUserDetailService myUserDetailService;
 
-    //регистрация новых пользователей
+    //регистрация jwt
     @PostMapping("/signUp")
-    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpDto signUpDto) {
-        SignInDto signInDto = userService.createUser(signUpDto);
-        return ResponseEntity.ok(signInDto);
+    public ResponseEntity<?> signUpAndLogin(@RequestBody @Valid SignUpDto signUpDto) {
+        return ResponseEntity.ok(userService.registerUserAndGetToken(signUpDto));
     }
 
-    //вход
+    //вход jwt
     @PostMapping("/signIn")
     public ResponseEntity<?> signIn(@RequestBody SignInDto signInDto) {
         return ResponseEntity.ok(userService.login(signInDto));
@@ -36,8 +33,15 @@ public class UserController {
 
     //список пользователей
     @GetMapping
-    public List<SignInDto> getBooks() {
+    public List<SignInDto> getUsers() {
         return userService.getUsers();
     }
 
+    @GetMapping("/showUserInfo")
+    @ResponseBody
+    public String showUserInfo() {
+        //загружаем юзера
+        UserDetails userDetails = myUserDetailService.getCurrentUser();
+        return userDetails.toString();
+    }
 }
