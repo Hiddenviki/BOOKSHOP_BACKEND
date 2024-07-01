@@ -1,4 +1,4 @@
-package com.pet.Bookshop.configuration.security.jwt;
+package com.pet.Bookshop.security.jwt;
 
 
 import com.auth0.jwt.JWT;
@@ -40,12 +40,12 @@ public class JwtUtils {
                 .setIssuer("vveselkova")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(key(), SignatureAlgorithm.HS256)
+                .signWith(generateKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     // Генерация ключа с использованием jwtSecret
-    private Key key() {
+    private Key generateKey() {
         byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }

@@ -1,5 +1,6 @@
-package com.pet.Bookshop.configuration.mail;
+package com.pet.Bookshop.utils;
 
+import com.pet.Bookshop.model.enums.EmailAction;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -19,7 +20,7 @@ public class MailUtil {
         message.setTo(to);
         message.setSubject(subject);
         if(action.equals(EmailAction.REGISTRATION)){
-            message.setText( mailProperties.getProperties().get("registration-text"));
+            message.setText(mailProperties.getProperties().get("registration-text"));
         }
         //else...
 

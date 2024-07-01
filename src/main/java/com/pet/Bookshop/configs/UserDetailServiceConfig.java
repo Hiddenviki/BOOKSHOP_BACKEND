@@ -1,4 +1,4 @@
-package com.pet.Bookshop.configuration.configs;
+package com.pet.Bookshop.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
