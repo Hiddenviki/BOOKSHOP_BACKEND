@@ -1,8 +1,8 @@
-package com.pet.Bookshop.security.configuration;
+package com.pet.Bookshop.configuration.configs;
 
-import com.pet.Bookshop.security.jwt.AuthEntryPointJwt;
-import com.pet.Bookshop.security.jwt.JWTFilter;
-import com.pet.Bookshop.security.userdetails.MyUserDetailService;
+import com.pet.Bookshop.configuration.security.jwt.AuthEntryPointJwt;
+import com.pet.Bookshop.configuration.security.jwt.JWTFilter;
+import com.pet.Bookshop.configuration.security.userdetails.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .requestMatchers("/users/showUserInfo").permitAll()
                 .requestMatchers("/books/**").authenticated()
                 .requestMatchers("/authors/**").authenticated()
+                .requestMatchers("/send/**").hasRole("GUEST") //когда пользователь регистрируется он получает роль GUEST
                 .anyRequest()
                 .authenticated()
                 .and().exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))

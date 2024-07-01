@@ -21,7 +21,7 @@ public abstract class UserMapper {
     @Mapping(target = "login", source = "login")
     @Mapping(target = "id", expression = "java(user.getId())")
     @Mapping(target = "email", expression = "java(user.getEmail())")
-    @Mapping(target = "role", expression = "java(com.pet.Bookshop.model.enums.Role.USER)")
+//    @Mapping(target = "role", expression = "java(com.pet.Bookshop.model.enums.Role.USER)")
     public abstract SignInDto toSignInDtoFromUser(User user);
 
     //регистрация из дто в user

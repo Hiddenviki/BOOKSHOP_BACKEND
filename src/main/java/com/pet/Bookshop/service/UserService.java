@@ -3,20 +3,21 @@ package com.pet.Bookshop.service;
 import com.pet.Bookshop.mapper.UserMapper;
 import com.pet.Bookshop.model.dto.SignInDto;
 import com.pet.Bookshop.model.dto.SignUpDto;
+import com.pet.Bookshop.model.dto.TokenDto;
 import com.pet.Bookshop.model.entity.User;
 import com.pet.Bookshop.repository.UserRepository;
-import com.pet.Bookshop.security.jwt.JwtUtils;
+import com.pet.Bookshop.configuration.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,18 +30,10 @@ public class UserService {
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
 
-    //проверки
-    private void validateSignUpDto(SignUpDto signUpDto) {
-        if (userRepository.existsByEmailOrLogin(signUpDto.getEmail(), signUpDto.getLogin())) {
-            throw new RuntimeException("Пользователь с таким email или login уже существует: " + signUpDto.getEmail() + " " + signUpDto.getLogin());
-        }
-        if (!signUpDto.isPasswordsMatch()) {
-            throw new RuntimeException("Пароли должны совпадать");
-        }
-    }
 
     // Регистрация нового пользователя с выдачей JWT-токена
-    public Map<String, String> registerUserAndGetToken(SignUpDto signUpDto) {
+    @Transactional
+    public TokenDto registerUserAndGetToken(SignUpDto signUpDto) {
         // Проверяем наличие пользователя с таким email или login в базе данных и соответствие паролей
         validateSignUpDto(signUpDto);
 
@@ -54,44 +47,37 @@ public class UserService {
 
             //создаем JWT-токен
             String jwtToken = jwtUtils.generateJwtToken(user);
-            // Возвращаем JWT-токен
-            return Map.of("jwt-token", jwtToken);
-        } catch (Exception e) {
-            log.error("UserService-registerUserAndGetToken: Возникла ошибка при регистрации пользователя: " + e);
-            throw new RuntimeException("Не удалось зарегистрировать пользователя: "+e);
+
+            return new TokenDto(jwtToken); // Возвращаем JWT-токен Dto
+
+
+        } catch (RuntimeException e) {
+            log.error("UserService-registerUserAndGetToken: Возникла ошибка при регистрации пользователя: ", e);
+            throw new RuntimeException("Не удалось зарегистрировать пользователя: ", e);
         }
+
+
     }
 
     //вход
-    public Map<String, String> login(SignInDto signInDto) {
+    @Transactional(readOnly = true)
+    public TokenDto login(SignInDto signInDto) {
         User userDb = userRepository.findByLogin(signInDto.getLogin())
                 .orElseThrow(() -> new UsernameNotFoundException("нет пользователя с логином " + signInDto.getLogin()));
-        if (
-                userDb.isActive()
-                        && userDb.getPassword() != null
-                        && signInDto.getPassword() != null
-                        //сначала пароль потом хэш
-                        && bCryptPasswordEncoder.matches(signInDto.getPassword(), userDb.getPassword())
-        ) {
-            UsernamePasswordAuthenticationToken authInputToken =
-                    new UsernamePasswordAuthenticationToken(signInDto.getLogin(),
-                            signInDto.getPassword());
 
-            try {
-                authenticationManager.authenticate(authInputToken);
-            } catch (BadCredentialsException e) {
-                log.info("UserService-login: ошибка аутентификации пользователя {}", signInDto.getLogin());
-                throw new RuntimeException(e);
-            }
-            log.info("UserService-login: Вошёл юзер с id: {}", userDb.getId());
+        // Проверка учетных данных пользователя
+        validateUserCredentials(signInDto, userDb);
 
-            String jwtToken = jwtUtils.generateJwtToken(userDb);
-            return Map.of("jwt-token", jwtToken);
-        } else {
-            log.info("UserService-login: Неверный логин или пароль login {} password {}", signInDto.getLogin(), signInDto.getPassword());
-            throw new RuntimeException("Неверный логин или пароль");
-        }
+        // Аутентификация пользователя
+        authenticateUser(signInDto);
+
+        log.info("UserService-login: Вошёл юзер с id: {}", userDb.getId());
+
+        String jwtToken = jwtUtils.generateJwtToken(userDb);
+        return new TokenDto(jwtToken);
     }
+
+
 
     public List<SignInDto> getUsers() {
         log.info("UserService-getUsers: Смотрим на всех пользователей");
@@ -100,6 +86,43 @@ public class UserService {
                 .map(userMapper::toSignInDtoFromUser)
                 .collect(Collectors.toList());
 
+    }
+
+    //проверки
+    private void validateSignUpDto(SignUpDto signUpDto) {
+        if (userRepository.existsByEmailOrLogin(signUpDto.getEmail(), signUpDto.getLogin())) {
+            throw new RuntimeException("Пользователь с таким email или login уже существует: " + signUpDto.getEmail() + " " + signUpDto.getLogin());
+        }
+        if (!signUpDto.isPasswordsMatch()) {
+            throw new RuntimeException("Пароли должны совпадать");
+        }
+    }
+
+    // Проверка учетных данных пользователя
+    private void validateUserCredentials(SignInDto signInDto, User user) {
+        if (!areValidCredentials(signInDto, user)) {
+            log.error("UserService-login: Неверный логин или пароль login {} ", signInDto.getLogin());
+            throw new RuntimeException("Неверный логин или пароль");
+        }
+    }
+
+    // Проверка правильности учетных данных
+    private boolean areValidCredentials(SignInDto signInDto, User user) {
+        return user.isActive() && user.getPassword() != null && signInDto.getPassword() != null &&
+                bCryptPasswordEncoder.matches(signInDto.getPassword(), user.getPassword());
+    }
+
+    // Аутентификация пользователя
+    private void authenticateUser(SignInDto signInDto) {
+        UsernamePasswordAuthenticationToken authInputToken =
+                new UsernamePasswordAuthenticationToken(signInDto.getLogin(), signInDto.getPassword());
+
+        try {
+            authenticationManager.authenticate(authInputToken);
+        } catch (AuthenticationException e) {
+            log.error("UserService-login: ошибка аутентификации пользователя {}", signInDto.getLogin());
+            throw new RuntimeException(e);
+        }
     }
 
 
