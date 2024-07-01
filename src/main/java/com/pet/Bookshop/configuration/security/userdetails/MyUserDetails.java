@@ -1,4 +1,4 @@
-package com.pet.Bookshop.security.userdetails;
+package com.pet.Bookshop.configuration.security.userdetails;
 
 import com.pet.Bookshop.model.entity.Book;
 import com.pet.Bookshop.model.entity.User;

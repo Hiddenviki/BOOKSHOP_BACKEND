@@ -1,7 +1,7 @@
-package com.pet.Bookshop.security.jwt;
+package com.pet.Bookshop.configuration.security.jwt;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.pet.Bookshop.security.userdetails.MyUserDetailService;
+import com.pet.Bookshop.configuration.security.userdetails.MyUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

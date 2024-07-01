@@ -1,12 +1,30 @@
 spring:
   liquibase:
     change-log: classpath:db/changelog/changelog.xml
+  profiles:
+    active: dev
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: victoryagraz@gmail.com
+    password: rkgc icmt mdrv akjo
+    protocol: smtp
+    tls: true
+    properties:
+      registration-text: "Welcome here, follow the link below to finish your registration: "
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+
+
 
   application:
     name: Bookshop
-    bookshop:
+    security:
       jwtSecret: "===========++++++++++====================================Bookshop=======+++++++=============================================="
       jwtExpirationMs: 6400000
+
 
   datasource:
     url: jdbc:postgresql://localhost:5432/BookshopDB
@@ -16,7 +34,3 @@ spring:
 
 server:
   port: 8081
-
-
-
-

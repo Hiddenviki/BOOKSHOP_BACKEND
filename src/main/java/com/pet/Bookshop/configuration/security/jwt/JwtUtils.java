@@ -1,4 +1,4 @@
-package com.pet.Bookshop.security.jwt;
+package com.pet.Bookshop.configuration.security.jwt;
 
 
 import com.auth0.jwt.JWT;
@@ -22,10 +22,10 @@ import java.util.Date;
 @Slf4j
 public class JwtUtils {
 
-    @Value("${spring.application.bookshop.jwtSecret}")
+    @Value("${spring.application.security.jwtSecret}")
     private String jwtSecret; //сЕкрЕтнаЯ сТроКа
 
-    @Value("${spring.application.bookshop.jwtExpirationMs}") //дата окончания
+    @Value("${spring.application.security.jwtExpirationMs}") //дата окончания
     private int jwtExpirationMs;
 
 

@@ -8,7 +8,6 @@ import com.pet.Bookshop.model.filter.BookFilter;
 import com.pet.Bookshop.repository.BookRepository;
 import com.pet.Bookshop.repository.BookSpecification;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -57,6 +56,7 @@ public class BookService {
         return bookMapper.toDto(book); //возвращаю ДТО
     }
 
+    @Transactional
     public void deleteBookById(Long id) {
         bookRepository.deleteById(id);
         log.info("BookService-deleteBookById: Удалили книгу с id {}", id);
@@ -84,7 +84,6 @@ public class BookService {
 
         Specification<Book> spec = BookSpecification.buildSpecification(filter);
         List<Book> bookList = bookRepository.findAll(spec);
-        //List<Book> bookList = bookRepository.findByFilter(filter);
 
         return bookList.stream().map(bookMapper::toDto).collect(Collectors.toList());
     }

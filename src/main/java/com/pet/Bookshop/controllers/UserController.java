@@ -1,8 +1,9 @@
 package com.pet.Bookshop.controllers;
 
+import com.pet.Bookshop.configuration.security.userdetails.MyUserDetailService;
 import com.pet.Bookshop.model.dto.SignInDto;
 import com.pet.Bookshop.model.dto.SignUpDto;
-import com.pet.Bookshop.security.userdetails.MyUserDetailService;
+import com.pet.Bookshop.model.dto.TokenDto;
 import com.pet.Bookshop.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class UserController {
     //регистрация jwt
     @PostMapping("/signUp")
     public ResponseEntity<?> signUpAndLogin(@RequestBody @Valid SignUpDto signUpDto) {
-        return ResponseEntity.ok(userService.registerUserAndGetToken(signUpDto));
+        TokenDto tokenResponse = userService.registerUserAndGetToken(signUpDto); // Регистрация пользователя
+        return ResponseEntity.ok(tokenResponse);
     }
 
     //вход jwt
