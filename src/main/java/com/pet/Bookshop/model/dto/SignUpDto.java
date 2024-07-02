@@ -33,6 +33,8 @@ public class SignUpDto {
     @NotBlank(message = "Повторите password")
     private String password2;
 
+    private String text;
+
     @AssertTrue(message = "Пароли не совпадают")
     public boolean isPasswordsMatch() {
         return password1 != null && password1.equals(password2);
