@@ -11,7 +11,7 @@ spring:
     protocol: smtp
     tls: true
     properties:
-      registration-text: "Welcome here, follow the link below to finish your registration: "
+      registration-text: ", follow the link below to finish your registration: "
     properties.mail.smtp:
       auth: true
       starttls.enable: true
