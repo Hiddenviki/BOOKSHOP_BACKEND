@@ -56,7 +56,7 @@ public class UserService {
             String jwtToken = jwtUtils.generateJwtToken(user);
 
             //отправляем письмо на почту о регистрации
-            SimpleMailMessage message = mailUtil.createMessage("Registration", EmailAction.REGISTRATION, signUpDto.getEmail());
+            SimpleMailMessage message = mailUtil.createRegistrationMessage(signUpDto);
             emailService.sendSimpleMessage(message);
 
             return new TokenDto(jwtToken); // Возвращаем JWT-токен Dto
