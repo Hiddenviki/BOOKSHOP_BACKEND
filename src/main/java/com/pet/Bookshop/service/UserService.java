@@ -1,14 +1,17 @@
 package com.pet.Bookshop.service;
 
+import com.pet.Bookshop.utils.MailUtil;
 import com.pet.Bookshop.mapper.UserMapper;
 import com.pet.Bookshop.model.dto.SignInDto;
 import com.pet.Bookshop.model.dto.SignUpDto;
 import com.pet.Bookshop.model.dto.TokenDto;
 import com.pet.Bookshop.model.entity.User;
+import com.pet.Bookshop.model.enums.EmailAction;
 import com.pet.Bookshop.repository.UserRepository;
-import com.pet.Bookshop.configuration.security.jwt.JwtUtils;
+import com.pet.Bookshop.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -30,10 +33,14 @@ public class UserService {
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
 
+    private final MailUtil mailUtil;
+
+    private final EmailService emailService;
+
 
     // Регистрация нового пользователя с выдачей JWT-токена
     @Transactional
-    public TokenDto registerUserAndGetToken(SignUpDto signUpDto) {
+    public TokenDto registerUser(SignUpDto signUpDto) {
         // Проверяем наличие пользователя с таким email или login в базе данных и соответствие паролей
         validateSignUpDto(signUpDto);
 
@@ -47,6 +54,10 @@ public class UserService {
 
             //создаем JWT-токен
             String jwtToken = jwtUtils.generateJwtToken(user);
+
+            //отправляем письмо на почту о регистрации
+            SimpleMailMessage message = mailUtil.createMessage("Registration", EmailAction.REGISTRATION, signUpDto.getEmail());
+            emailService.sendSimpleMessage(message);
 
             return new TokenDto(jwtToken); // Возвращаем JWT-токен Dto
 
@@ -121,7 +132,7 @@ public class UserService {
             authenticationManager.authenticate(authInputToken);
         } catch (AuthenticationException e) {
             log.error("UserService-login: ошибка аутентификации пользователя {}", signInDto.getLogin());
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 

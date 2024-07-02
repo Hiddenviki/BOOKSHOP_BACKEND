@@ -1,9 +1,8 @@
-package com.pet.Bookshop.configuration.configs;
+package com.pet.Bookshop.configs;
 
-import com.pet.Bookshop.configuration.security.jwt.AuthEntryPointJwt;
-import com.pet.Bookshop.configuration.security.jwt.JWTFilter;
-import com.pet.Bookshop.configuration.security.userdetails.MyUserDetailService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pet.Bookshop.security.jwt.AuthEntryPointJwt;
+import com.pet.Bookshop.security.jwt.JWTFilter;
+import com.pet.Bookshop.security.userdetails.MyUserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,16 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
-    @Autowired
-    private MyUserDetailService userDetailsService;
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
-    @Autowired
-    private JWTFilter jwtFilter;
-
-
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider authenticationProvider(MyUserDetailService userDetailsService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
         authProvider.setUserDetailsService(userDetailsService);
@@ -55,7 +46,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, AuthEntryPointJwt unauthorizedHandler, JWTFilter jwtFilter) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests()

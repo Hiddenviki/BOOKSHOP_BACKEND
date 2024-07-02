@@ -1,4 +1,4 @@
-package com.pet.Bookshop.configuration.security.jwt;
+package com.pet.Bookshop.security.jwt;
 
 
 import jakarta.servlet.http.HttpServletRequest;

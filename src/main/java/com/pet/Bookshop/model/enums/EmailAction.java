@@ -1,4 +1,4 @@
-package com.pet.Bookshop.configuration.mail;
+package com.pet.Bookshop.model.enums;
 
 public enum EmailAction {
     REGISTRATION, // регистрация

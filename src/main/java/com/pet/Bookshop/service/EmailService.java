@@ -1,4 +1,4 @@
-package com.pet.Bookshop.configuration.mail;
+package com.pet.Bookshop.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
