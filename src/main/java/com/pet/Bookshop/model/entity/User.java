@@ -29,11 +29,11 @@ public class User {
     @CreationTimestamp //Hibernate автоматически устанавливает время создания
     @Temporal(TemporalType.TIMESTAMP) //устанавливает тип хранения времени в базе данных
     @Column(name = "created_date", nullable = false)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime createdDate;
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Role role;
 
     @Column(name = "active", nullable = false)
