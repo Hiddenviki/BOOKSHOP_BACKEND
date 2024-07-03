@@ -19,8 +19,8 @@ public class EmailController {
 
     //отправка сообщения от имени администратора
     @PostMapping("/send")
-    public ResponseEntity<?> sendAdminEmail(@RequestBody @Valid EmailDto emailDto) {
-        return ResponseEntity.ok(emailService.sendAdminEmail(emailDto));
+    public String sendAdminEmail(@RequestBody @Valid EmailDto emailDto) {
+        return emailService.sendAdminEmail(emailDto);
     }
 
 

@@ -9,6 +9,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -36,6 +38,6 @@ public class EmailService {
     public String sendAdminEmail(EmailDto emailDto) {
         SimpleMailMessage message = mailUtil.createAdminMessage(emailDto);
         sendSimpleMessage(message);
-        return "Письмо успешно отправлено получателю: " + emailDto.getTo();
+        return MessageFormat.format("Письмо успешно отправлено получателю: ", emailDto.getTo());
     }
 }
