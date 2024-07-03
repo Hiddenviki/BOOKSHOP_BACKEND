@@ -50,13 +50,13 @@ public class SecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests()
-                .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PATCH).hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE).hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PATCH).hasAuthority("ADMIN")
                 .requestMatchers("/users/**").permitAll()
                 .requestMatchers("/users/showUserInfo").permitAll()
                 .requestMatchers("/books/**").authenticated()
                 .requestMatchers("/authors/**").authenticated()
-                .requestMatchers("/send/**").hasRole("GUEST") //когда пользователь регистрируется он получает роль GUEST
+                .requestMatchers("/emails/send").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and().exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
