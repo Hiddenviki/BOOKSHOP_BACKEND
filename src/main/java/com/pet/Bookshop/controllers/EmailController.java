@@ -18,7 +18,9 @@ public class EmailController {
 
 /**
  * отправка сообщения от имени администратора
- * */
+ * @param emailDto
+ * @return String
+ * * */
     @PostMapping("/send")
     public String sendAdminEmail(@RequestBody @Valid EmailDto emailDto) {
         return emailService.sendAdminEmail(emailDto);
