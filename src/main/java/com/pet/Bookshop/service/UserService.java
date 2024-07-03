@@ -6,7 +6,6 @@ import com.pet.Bookshop.model.dto.SignInDto;
 import com.pet.Bookshop.model.dto.SignUpDto;
 import com.pet.Bookshop.model.dto.TokenDto;
 import com.pet.Bookshop.model.entity.User;
-import com.pet.Bookshop.model.enums.EmailAction;
 import com.pet.Bookshop.repository.UserRepository;
 import com.pet.Bookshop.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +55,7 @@ public class UserService {
             String jwtToken = jwtUtils.generateJwtToken(user);
 
             //отправляем письмо на почту о регистрации
-            SimpleMailMessage message = mailUtil.createMessage("Registration", EmailAction.REGISTRATION, signUpDto.getEmail());
+            SimpleMailMessage message = mailUtil.createRegistrationMessage(signUpDto);
             emailService.sendSimpleMessage(message);
 
             return new TokenDto(jwtToken); // Возвращаем JWT-токен Dto
