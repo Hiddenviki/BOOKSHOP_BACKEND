@@ -6,7 +6,6 @@ import com.pet.Bookshop.model.dto.SignInDto;
 import com.pet.Bookshop.model.dto.SignUpDto;
 import com.pet.Bookshop.model.dto.TokenDto;
 import com.pet.Bookshop.model.entity.User;
-import com.pet.Bookshop.model.enums.EmailAction;
 import com.pet.Bookshop.repository.UserRepository;
 import com.pet.Bookshop.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
