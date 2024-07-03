@@ -38,6 +38,6 @@ public class EmailService {
     public String sendAdminEmail(EmailDto emailDto) {
         SimpleMailMessage message = mailUtil.createAdminMessage(emailDto);
         sendSimpleMessage(message);
-        return MessageFormat.format("Письмо успешно отправлено получателю: ", emailDto.getTo());
+        return MessageFormat.format("Письмо успешно отправлено получателю: {0}", emailDto.getTo());
     }
 }
