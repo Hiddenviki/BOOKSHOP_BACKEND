@@ -28,6 +28,7 @@
         <jjwt.version>0.11.5</jjwt.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <starter-mail.version>3.3.0</starter-mail.version>
+        <jasypt.version>3.0.4</jasypt.version>
     </properties>
     <dependencies>
         <dependency>
@@ -118,6 +119,13 @@
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>${starter-mail.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt.version}</version>
+        </dependency>
+
 
 
     </dependencies>

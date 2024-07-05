@@ -1,12 +1,12 @@
 package com.pet.Bookshop.service;
 
 
+import com.pet.Bookshop.dto.BookDto;
+import com.pet.Bookshop.dto.filter.BookFilterDto;
+import com.pet.Bookshop.entity.Book;
 import com.pet.Bookshop.mapper.BookMapper;
-import com.pet.Bookshop.model.dto.BookDto;
-import com.pet.Bookshop.model.entity.Book;
-import com.pet.Bookshop.model.filter.BookFilter;
 import com.pet.Bookshop.repository.BookRepository;
-import com.pet.Bookshop.repository.BookSpecification;
+import com.pet.Bookshop.service.specification.BookSpecificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,6 +23,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper; //почему тут неправильно? оно не может быть final?
     private final AuthorService authorService;
+    private BookSpecificationService BookSpecification;
 
 
     public List<BookDto> getBooks() {
@@ -79,7 +80,7 @@ public class BookService {
         return bookMapper.toDto(book);
     }
 
-    public List<BookDto> filterBooks(BookFilter filter) {
+    public List<BookDto> filterBooks(BookFilterDto filter) {
         log.info("BookService-filterBooks: фильтры: {}\n ", filter.toString());
 
         Specification<Book> spec = BookSpecification.buildSpecification(filter);

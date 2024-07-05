@@ -1,8 +1,8 @@
 package com.pet.Bookshop.mapper;
 
-import com.pet.Bookshop.model.dto.AuthorDto;
-import com.pet.Bookshop.model.entity.Author;
-import com.pet.Bookshop.model.entity.Book;
+import com.pet.Bookshop.dto.AuthorDto;
+import com.pet.Bookshop.entity.Author;
+import com.pet.Bookshop.entity.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

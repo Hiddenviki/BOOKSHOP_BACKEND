@@ -1,7 +1,6 @@
 package com.pet.Bookshop.service;
 
-import com.pet.Bookshop.model.dto.EmailDto;
-import com.pet.Bookshop.utils.MailUtil;
+import com.pet.Bookshop.dto.EmailDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
@@ -16,7 +15,7 @@ import java.text.MessageFormat;
 @RequiredArgsConstructor
 public class EmailService {
     private final JavaMailSender emailSender;
-    private final MailUtil mailUtil;
+    private final MailService mailService;
 
     public void sendSimpleMessage(SimpleMailMessage message) {
         try {
@@ -36,7 +35,7 @@ public class EmailService {
 
 
     public String sendAdminEmail(EmailDto emailDto) {
-        SimpleMailMessage message = mailUtil.createAdminMessage(emailDto);
+        SimpleMailMessage message = mailService.createAdminMessage(emailDto);
         sendSimpleMessage(message);
         return MessageFormat.format("Письмо успешно отправлено получателю: {0}", emailDto.getTo());
     }
