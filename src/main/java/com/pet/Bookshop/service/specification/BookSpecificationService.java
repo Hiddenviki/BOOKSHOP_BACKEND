@@ -1,18 +1,20 @@
-package com.pet.Bookshop.repository;
+package com.pet.Bookshop.service.specification;
 
-import com.pet.Bookshop.model.entity.Author_;
-import com.pet.Bookshop.model.entity.Book;
-import com.pet.Bookshop.model.entity.Book_;
-import com.pet.Bookshop.model.filter.BookFilter;
+import com.pet.Bookshop.dto.filter.BookFilterDto;
+import com.pet.Bookshop.entity.Author_;
+import com.pet.Bookshop.entity.Book;
+import com.pet.Bookshop.entity.Book_;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookSpecification {
-    public static Specification<Book> buildSpecification(BookFilter filter) {
+@Service
+public class BookSpecificationService {
+    public Specification<Book> buildSpecification(BookFilterDto filter) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
