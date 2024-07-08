@@ -1,13 +1,11 @@
 package com.pet.Bookshop.service;
 
-import com.pet.Bookshop.utils.MailUtil;
+import com.pet.Bookshop.dto.SignInDto;
+import com.pet.Bookshop.dto.SignUpDto;
+import com.pet.Bookshop.dto.TokenDto;
+import com.pet.Bookshop.entity.User;
 import com.pet.Bookshop.mapper.UserMapper;
-import com.pet.Bookshop.model.dto.SignInDto;
-import com.pet.Bookshop.model.dto.SignUpDto;
-import com.pet.Bookshop.model.dto.TokenDto;
-import com.pet.Bookshop.model.entity.User;
 import com.pet.Bookshop.repository.UserRepository;
-import com.pet.Bookshop.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -29,10 +27,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final JwtUtils jwtUtils;
+    private final JwtService jwtUtil;
     private final AuthenticationManager authenticationManager;
 
-    private final MailUtil mailUtil;
+    private final MailService mailService;
 
     private final EmailService emailService;
 
@@ -52,10 +50,10 @@ public class UserService {
             log.info("UserService-registerUserAndGetToken: создали юзера его email: {}, дата: {}", user.getEmail(), user.getCreatedDate());
 
             //создаем JWT-токен
-            String jwtToken = jwtUtils.generateJwtToken(user);
+            String jwtToken = jwtUtil.generateJwtToken(user);
 
             //отправляем письмо на почту о регистрации
-            SimpleMailMessage message = mailUtil.createRegistrationMessage(signUpDto);
+            SimpleMailMessage message = mailService.createRegistrationMessage(signUpDto);
             emailService.sendSimpleMessage(message);
 
             return new TokenDto(jwtToken); // Возвращаем JWT-токен Dto
@@ -83,10 +81,9 @@ public class UserService {
 
         log.info("UserService-login: Вошёл юзер с id: {}", userDb.getId());
 
-        String jwtToken = jwtUtils.generateJwtToken(userDb);
+        String jwtToken = jwtUtil.generateJwtToken(userDb);
         return new TokenDto(jwtToken);
     }
-
 
 
     public List<SignInDto> getUsers() {
