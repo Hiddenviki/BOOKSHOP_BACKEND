@@ -14,8 +14,11 @@ public class JasyptConfig {
     public StringEncryptor stringEncryptor() {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 
-        encryptor.setAlgorithm("PBEWITHHMACSHA512ANDAES_256"); //как это спрятать?
-        encryptor.setPassword("superkey"); //как это спрятать?
+        String jasyptAlgorithm = System.getenv("jasypt_algorithm");
+        encryptor.setAlgorithm(jasyptAlgorithm);
+
+        String jasyptKey = System.getenv("jasypt_key");
+        encryptor.setPassword(jasyptKey);
 
         encryptor.setIvGenerator(new RandomIvGenerator());
         encryptor.setSaltGenerator(new RandomSaltGenerator());
