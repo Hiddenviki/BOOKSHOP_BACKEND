@@ -1,5 +1,6 @@
 package com.pet.Bookshop.config;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
@@ -13,11 +14,12 @@ public class JasyptConfig {
     @Bean("jasyptStringEncryptor")
     public StringEncryptor stringEncryptor() {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+        Dotenv dotenv = Dotenv.configure().load();
 
-        String jasyptAlgorithm = System.getenv("jasypt_algorithm");
+        String jasyptAlgorithm = dotenv.get("JASYPT_ALGORITHM");
         encryptor.setAlgorithm(jasyptAlgorithm);
 
-        String jasyptKey = System.getenv("jasypt_key");
+        String jasyptKey = dotenv.get("JASYPT_KEY");
         encryptor.setPassword(jasyptKey);
 
         encryptor.setIvGenerator(new RandomIvGenerator());
