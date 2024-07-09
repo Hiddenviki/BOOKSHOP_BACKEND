@@ -5,9 +5,9 @@ services:
     container_name: postgres_Bookshop
     image: postgres:15-alpine
     environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: vveselkova
-      POSTGRES_DB: BookshopDB
+      POSTGRES_PASSWORD: password #как это спрятать?
+      POSTGRES_USER: vveselkova #как это спрятать?
+      POSTGRES_DB: BookshopDB #как это спрятать?
     ports:
       - 5432:5432
     networks:
