@@ -5,8 +5,8 @@ services:
     container_name: postgres_Bookshop
     image: postgres:15-alpine
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: vveselkova
       POSTGRES_DB: BookshopDB
     ports:
       - 5432:5432
