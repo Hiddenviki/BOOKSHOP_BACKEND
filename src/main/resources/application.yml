@@ -6,8 +6,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: victoryagraz@gmail.com
-    password: rkgc icmt mdrv akjo
+    username: ENC(T+/9M/1uLL+7sNpfUsoHHLIf4EvkialxtrVV1qyTd1WXm+aiQaQzw+1HrBNSOOUoQYFQlhd5fdnzkcBI1m4Jmg==)
+    password: ENC(4w0h8g/Dqbmb7OsRLnZr2Inp4eTV8E9OqeXJP2nfMqPR96taIjUtXRB98wEhxEpQPEGwdIF9r8BDBA9zOPiOMQ==)
     protocol: smtp
     tls: true
     properties:
@@ -17,19 +17,16 @@ spring:
       starttls.enable: true
       ssl.trust: smtp.gmail.com
 
-
-
   application:
     name: Bookshop
     security:
-      jwtSecret: "===========++++++++++====================================Bookshop=======+++++++=============================================="
+      jwtSecret: ENC(oxwLRjCzFTOaS2kaB9wX6C8ER9QTxX1zWzHdK/DbJSHGCeJ1Y7PauQDepAO4VELN+3IibMQh89rjcCP2ETMPQJJ++mGBEjWYmE/4C/eopJqeDRYN347HqEZylCfb//GL5nd8nveRQGXcR/PgESC0gVHgRLKV4c2jFvAT9lJS2i6q6xeYu0tly/JsHB8KFsn/hjC19uY8dd9k8Esy10TQVw==)
       jwtExpirationMs: 6400000
-
 
   datasource:
     url: jdbc:postgresql://localhost:5432/BookshopDB
-    username: vveselkova
-    password: password
+    username: ENC(sSOo319A+fsujRcH9fq8Pxje5LgFNyMd4jnGJVAmObHlLMMMS8ZeeH9n087+Q08z)
+    password: ENC(dwPwkh2x9b/x8rNZFMI4VW9Y23bSuoF4d9Z48iItERMnO2R7haGM5ibOrKxQnDaR)
     driverClassName: org.postgresql.Driver
 
 server:

@@ -23,7 +23,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper; //почему тут неправильно? оно не может быть final?
     private final AuthorService authorService;
-    private BookSpecificationService BookSpecification;
+    private BookSpecificationService bookSpecification;
 
 
     public List<BookDto> getBooks() {
@@ -83,7 +83,7 @@ public class BookService {
     public List<BookDto> filterBooks(BookFilterDto filter) {
         log.info("BookService-filterBooks: фильтры: {}\n ", filter.toString());
 
-        Specification<Book> spec = BookSpecification.buildSpecification(filter);
+        Specification<Book> spec = bookSpecification.buildSpecification(filter);
         List<Book> bookList = bookRepository.findAll(spec);
 
         return bookList.stream().map(bookMapper::toDto).collect(Collectors.toList());
