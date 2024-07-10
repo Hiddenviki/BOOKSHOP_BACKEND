@@ -1,7 +1,9 @@
 package com.pet.Bookshop.controller;
 
+import com.pet.Bookshop.api.EmailApi;
 import com.pet.Bookshop.dto.EmailDto;
 import com.pet.Bookshop.service.EmailService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/emails")
 @RequiredArgsConstructor
-public class EmailController {
+public class EmailController implements EmailApi {
 
     private final EmailService emailService;
 
@@ -22,6 +24,7 @@ public class EmailController {
  * @return String
  * * */
     @PostMapping("/send")
+    @Override
     public String sendAdminEmail(@RequestBody @Valid EmailDto emailDto) {
         return emailService.sendAdminEmail(emailDto);
     }

@@ -1,8 +1,10 @@
 package com.pet.Bookshop.controller;
 
+import com.pet.Bookshop.api.AuthorApi;
 import com.pet.Bookshop.dto.AuthorDto;
 import com.pet.Bookshop.entity.Author;
 import com.pet.Bookshop.service.AuthorService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -14,23 +16,26 @@ import java.util.List;
 @RequestMapping("/authors")
 @RequiredArgsConstructor
 @Log4j2
-public class AuthorController {
+public class AuthorController implements AuthorApi {
     private final AuthorService authorService;
 
     //вывод всех авторов
     @GetMapping
+    @Override
     public List<AuthorDto> getAllAuthors() {
         return authorService.getAllAuthors();
     }
 
     //вывод конкретного автора по author_id
     @GetMapping("/{id}")
+    @Override
     public AuthorDto getAuthorById(@PathVariable Long id) {
         return authorService.getAuthorById(id);
     }
 
     //создание автора
     @PostMapping
+    @Override
     public AuthorDto createAuthor(@Valid @RequestBody Author author) {
         return authorService.createAuthor(author);
     }
