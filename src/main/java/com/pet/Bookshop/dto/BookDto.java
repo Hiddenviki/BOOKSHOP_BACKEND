@@ -1,6 +1,7 @@
 package com.pet.Bookshop.dto;
 
 import com.pet.Bookshop.enums.Covers;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Valid
+@Schema(example = "{\"name\": \"Война и Мир\", \"brand\": \"Просвящение\", \"cover\": \"SOFT\", \"authorId\": 1, \"count\": 12}")
 public class BookDto {
 
     private Long id;

@@ -1,5 +1,6 @@
 package com.pet.Bookshop.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -19,15 +20,18 @@ public class EmailDto {
     @NotBlank(message = "Заполните email получателя")
     @Size(min = 1, max = 50, message = "1<=Длина email<=50")
     @Email
+    @Schema(example = "{\"to\": \"victoryagraz@gmail.com\"}")
     String to;
 
     @NotNull(message = "Заполните тему письма")
     @NotBlank(message = "Заполните тему письма")
     @Size(min = 1, max = 50, message = "Покороче")
+    @Schema(example = "{\"subject\": \"Check email api\"}")
     String subject;
 
     @NotNull(message = "Заполните письмо")
     @NotBlank(message = "Заполните письмо")
+    @Schema(example = "{\"text\": \"Hello\"}")
     String text;
 
 }
