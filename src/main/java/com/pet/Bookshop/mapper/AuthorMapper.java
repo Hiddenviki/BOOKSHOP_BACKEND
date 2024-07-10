@@ -1,6 +1,7 @@
 package com.pet.Bookshop.mapper;
 
 import com.pet.Bookshop.dto.AuthorDto;
+import com.pet.Bookshop.dto.NewAuthorDto;
 import com.pet.Bookshop.entity.Author;
 import com.pet.Bookshop.entity.Book;
 import org.mapstruct.Mapper;
@@ -14,11 +15,13 @@ import java.util.stream.Collectors;
 @Mapper
 public abstract class AuthorMapper {
 
-    @Mapping(target = "books", ignore = true)
-    public abstract Author toAuthor(AuthorDto dto);
+    @Mapping(target = "id", expression = "java(dto.getId())")
+    @Mapping(target = "firstName", expression = "java(dto.getFirstName())")
+    @Mapping(target = "lastName", expression = "java(dto.getLastName())")
+    public abstract Author toAuthor(NewAuthorDto dto);
 
     @Mapping(target = "bookIds", source = "books", qualifiedByName = "extractBookIds")
-    @Mapping( target = "authorName", expression = "java(entity.getFirstName() + \" \" + entity.getLastName())")
+    @Mapping(target = "authorName", expression = "java(entity.getFirstName() + \" \" + entity.getLastName())")
     public abstract AuthorDto toDto(Author entity);
 
     @Named("extractBookIds")
