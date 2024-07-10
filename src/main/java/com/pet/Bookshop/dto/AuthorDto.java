@@ -13,12 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 public class AuthorDto {
 
-    @Schema(example = "{\"id\": 1}")
+    @Schema(example = "1")
     private Long id; //id автора
 
-    @Schema(example = "{\"authorName\": \"Лев Толстой\"}")
+    @Schema(example = "Лев Толстой")
     private String authorName; //first_name+last_name | имя+фамилия
 
-    @Schema(example = "{\"bookIds\": [1]}")
+    @Schema(example = "[1]")
     private List<Long> bookIds = new ArrayList<>(); //список книг автора
 }

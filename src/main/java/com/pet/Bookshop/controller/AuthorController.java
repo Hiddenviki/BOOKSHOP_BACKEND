@@ -2,6 +2,7 @@ package com.pet.Bookshop.controller;
 
 import com.pet.Bookshop.api.AuthorApi;
 import com.pet.Bookshop.dto.AuthorDto;
+import com.pet.Bookshop.dto.NewAuthorDto;
 import com.pet.Bookshop.entity.Author;
 import com.pet.Bookshop.service.AuthorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -36,7 +37,7 @@ public class AuthorController implements AuthorApi {
     //создание автора
     @PostMapping
     @Override
-    public AuthorDto createAuthor(@Valid @RequestBody Author author) {
+    public AuthorDto createAuthor(@Valid @RequestBody NewAuthorDto author) {
         return authorService.createAuthor(author);
     }
 

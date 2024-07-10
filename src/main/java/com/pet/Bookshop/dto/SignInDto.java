@@ -17,9 +17,11 @@ import lombok.NoArgsConstructor;
 @Valid
 public class SignInDto {
 
+    @Schema(example = "1")
     private Long id;
     @Schema(example = "victoryagraz@gmail.com")
     private String email;
+    @Schema(example = "GUEST")
     private Roles role;
 
     @NotNull(message = "Заполните login")

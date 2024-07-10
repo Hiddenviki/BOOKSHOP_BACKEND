@@ -1,10 +1,9 @@
 package com.pet.Bookshop.api;
 
 import com.pet.Bookshop.dto.AuthorDto;
-import com.pet.Bookshop.entity.Author;
+import com.pet.Bookshop.dto.NewAuthorDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
@@ -28,5 +27,5 @@ public interface AuthorApi {
             description = "Создает нового автора",
             summary = "Создает нового автора"
     )
-    AuthorDto createAuthor(@Parameter(description = "Сущнось автора") Author author);
+    AuthorDto createAuthor(@Parameter(description = "Сущнось автора") NewAuthorDto author);
 }
