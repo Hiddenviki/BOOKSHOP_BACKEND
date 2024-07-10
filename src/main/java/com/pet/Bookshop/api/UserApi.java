@@ -5,10 +5,9 @@ import com.pet.Bookshop.dto.SignUpDto;
 import com.pet.Bookshop.dto.UserInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -20,9 +19,7 @@ public interface UserApi {
             summary = "Регистрация и вход"
     )
     ResponseEntity<?> signUpAndLogin(
-            @RequestBody @Valid @Parameter(description = "DTO входа (логин и пароль)")
-            @io.swagger.v3.oas.annotations.media.Schema(
-                    example = "{\"email\": \"Victoryagraz@gmail.com\", \"login\": \"naruta2007\", \"password1\": \"Veselkova249!\", \"password2\": \"Veselkova249!\"}")
+            @Parameter(description = "DTO регистрации")
             SignUpDto signUpDto
     );
 
@@ -31,9 +28,7 @@ public interface UserApi {
             summary = "Вход"
     )
     ResponseEntity<?> signIn(
-            @RequestBody @Parameter(description = "DTO входа (логин и пароль)")
-            @io.swagger.v3.oas.annotations.media.Schema(
-                    example = "{\"login\": \"naruta2007\", \"password\": \"Veselkova249!\"}")
+            @Parameter(description = "DTO входа (логин и пароль)")
             SignInDto signInDto
     );
 
