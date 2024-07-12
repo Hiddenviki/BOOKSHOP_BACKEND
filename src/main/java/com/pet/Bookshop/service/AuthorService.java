@@ -37,7 +37,7 @@ public class AuthorService {
     }
 
     public Author getAuthor(Long id) {
-        log.info("AuthorService-getAuthorById: id " + id);
+        log.info("AuthorService-getAuthor: id " + id);
 
         return authorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Не нашли автора с таким айди: " + id));

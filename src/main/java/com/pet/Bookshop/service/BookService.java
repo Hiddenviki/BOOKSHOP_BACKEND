@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BookService {
     private final BookRepository bookRepository;
-    private final BookMapper bookMapper; //почему тут неправильно? оно не может быть final?
+    private final BookMapper bookMapper;
     private final AuthorService authorService;
     private BookSpecificationService bookSpecification;
 
