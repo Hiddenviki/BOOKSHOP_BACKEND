@@ -6,9 +6,7 @@ import com.pet.Bookshop.entity.Author;
 import com.pet.Bookshop.entity.Book;
 import com.pet.Bookshop.enums.Covers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +14,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
 public class AuthorMapperTest {
     //вызываем AuthorMapper через getMapper
     private final AuthorMapper authorMapper = Mappers.getMapper(AuthorMapper.class);

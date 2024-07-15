@@ -4,20 +4,15 @@ import com.pet.Bookshop.dto.UserInfoDto;
 import com.pet.Bookshop.entity.User;
 import com.pet.Bookshop.enums.Roles;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
 class UserInfoMapperTest {
 
-    @InjectMocks
     private UserInfoMapper userInfoMapper = Mappers.getMapper(UserInfoMapper.class);
 
     @Test

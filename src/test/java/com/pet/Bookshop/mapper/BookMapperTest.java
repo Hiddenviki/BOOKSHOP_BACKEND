@@ -6,6 +6,7 @@ import com.pet.Bookshop.entity.Book;
 import com.pet.Bookshop.enums.Covers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @ExtendWith(MockitoExtension.class)
 public class BookMapperTest {
 
-    private final BookMapper bookMapper = new BookMapperImpl();
+    private final BookMapper bookMapper = Mappers.getMapper(BookMapper.class);;
 
     @Test
     void testToBook() {
