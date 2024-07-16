@@ -1,6 +1,6 @@
 package com.pet.Bookshop.config.kafka;
 
-import com.pet.Bookshop.entity.Book;
+import com.pet.Bookshop.dto.BookDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +24,7 @@ public class KafkaConsumerConfig {
     private String groupId;
 
     @Bean
-    public ConsumerFactory<String, Book> bookConsumerFactory() {
+    public ConsumerFactory<String, BookDto> bookConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -38,13 +38,13 @@ public class KafkaConsumerConfig {
         props.put(
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 JsonDeserializer.class); // для десериализации объектов Book
-        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(Book.class));
+        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(BookDto.class));
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Book>
+    public ConcurrentKafkaListenerContainerFactory<String, BookDto>
     kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Book> factory =
+        ConcurrentKafkaListenerContainerFactory<String, BookDto> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(bookConsumerFactory());
         return factory;

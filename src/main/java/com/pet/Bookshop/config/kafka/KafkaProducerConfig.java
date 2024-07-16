@@ -1,6 +1,6 @@
 package com.pet.Bookshop.config.kafka;
 
-import com.pet.Bookshop.entity.Book;
+import com.pet.Bookshop.dto.BookDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,7 @@ public class KafkaProducerConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ProducerFactory<String, Book> producerFactory() {
+    public ProducerFactory<String, BookDto> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -36,7 +36,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, Book> kafkaTemplate() {
+    public KafkaTemplate<String, BookDto> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

@@ -6,7 +6,6 @@ import com.pet.Bookshop.dto.filter.BookFilterDto;
 import com.pet.Bookshop.entity.Book;
 import com.pet.Bookshop.mapper.BookMapper;
 import com.pet.Bookshop.repository.BookRepository;
-import com.pet.Bookshop.service.kafka.KafkaProducerService;
 import com.pet.Bookshop.service.specification.BookSpecificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,6 @@ public class BookService {
     private final BookMapper bookMapper;
     private final AuthorService authorService;
     private BookSpecificationService bookSpecification;
-    private final KafkaProducerService kafkaProducerService;
 
 
     public List<BookDto> getBooks() {
@@ -47,17 +45,14 @@ public class BookService {
 
     @Transactional
     public BookDto createBook(BookDto bookDto) {
-        log.info("-----------------\nBookService-createBook: в ДТО {} id автора {}", bookDto.getName(), bookDto.getAuthorId());
+        log.info("BookService-createBook: в ДТО {} id автора {}", bookDto.getName(), bookDto.getAuthorId());
 
         Book book = bookMapper.toBook(bookDto); //сначала книгу из ДТО
 
         book.setAuthor(authorService.getAuthor(bookDto.getAuthorId())); //устанавливаю автора
 
-        log.info("BookService-createBook: Попытка создать новую книгу");
-        kafkaProducerService.sendMessage(book);//отправляю Book в Kafka
-        //в транзакции случилась ошибка в kafkaProducerService.sendMessage(book)
-        //но вернулся ответ 200 хотя книга не создалась
-        //почему
+        log.info("BookService-createBook: создание новой книги");
+        bookRepository.save(book); //сохраняю
 
         return bookMapper.toDto(book); //возвращаю ДТО
     }
