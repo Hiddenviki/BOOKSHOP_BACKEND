@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.when;
-
+import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class AuthorControllerTest {
     @Mock

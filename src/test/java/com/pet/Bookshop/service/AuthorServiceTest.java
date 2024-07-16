@@ -21,12 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@RequiredArgsConstructor
 public class AuthorServiceTest {
     @Mock
-    private final AuthorRepository authorRepository;
+    private AuthorRepository authorRepository;
     @Mock
-    private final AuthorMapper authorMapper;
+    private AuthorMapper authorMapper;
     @InjectMocks
     private AuthorService authorService;  // экземпляр тестируемого сервиса авторов
 
