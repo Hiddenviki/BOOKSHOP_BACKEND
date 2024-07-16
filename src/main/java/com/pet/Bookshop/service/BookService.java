@@ -45,14 +45,14 @@ public class BookService {
 
     @Transactional
     public BookDto createBook(BookDto bookDto) {
-        log.info("-----------------\nBookService-createBook: в ДТО {} id автора {}", bookDto.getName(), bookDto.getAuthorId());
+        log.info("BookService-createBook: в ДТО {} id автора {}", bookDto.getName(), bookDto.getAuthorId());
 
         Book book = bookMapper.toBook(bookDto); //сначала книгу из ДТО
 
         book.setAuthor(authorService.getAuthor(bookDto.getAuthorId())); //устанавливаю автора
-        bookRepository.save(book); //сохраняю
 
-        log.info("BookService-createBook: Создали новую книгу");
+        log.info("BookService-createBook: создание новой книги");
+        bookRepository.save(book); //сохраняю
 
         return bookMapper.toDto(book); //возвращаю ДТО
     }

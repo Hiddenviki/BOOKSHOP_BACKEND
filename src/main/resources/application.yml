@@ -29,6 +29,11 @@ spring:
     password: ENC(dwPwkh2x9b/x8rNZFMI4VW9Y23bSuoF4d9Z48iItERMnO2R7haGM5ibOrKxQnDaR)
     driverClassName: org.postgresql.Driver
 
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: bookshop-consumer
+
 server:
   port: 8081
 
