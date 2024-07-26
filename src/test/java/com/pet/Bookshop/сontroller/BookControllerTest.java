@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class BookControllerTest {
+class BookControllerTest {
 
     @Mock
     private BookService bookService;
@@ -29,7 +29,7 @@ public class BookControllerTest {
     private BookController bookController;
 
     @Test
-    public void testGetBooks() {
+    void testGetBooks() {
         List<BookDto> expectedBooks = new ArrayList<>();
         when(bookService.getBooks()).thenReturn(expectedBooks);
 
@@ -39,7 +39,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void testGetBookById() {
+    void testGetBookById() {
         Long bookId = 1L;
         BookDto expectedBook = new BookDto();
         expectedBook.setId(bookId);
@@ -52,7 +52,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void testCreateBook() {
+    void testCreateBook() {
 
         BookDto newBookDto = new BookDto(1L, "Война и Мир", "Просвящение", Covers.HARD, 1L, 12);
         BookDto expectedBook = new BookDto(1L, "Война и Мир", "Просвящение", Covers.HARD, 1L, 12);
@@ -65,7 +65,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void testDeleteBookById() {
+    void testDeleteBookById() {
         Long bookId = 1L;
 
         assertDoesNotThrow(() -> bookController.deleteBookById(bookId));
@@ -74,7 +74,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void testEditBookById() {
+    void testEditBookById() {
         BookDto editedBookDto = new BookDto(1L, "Война и Мир", "Просвящение", Covers.HARD, 1L, 12);
         BookDto expectedEditedBook = new BookDto();
 
@@ -86,7 +86,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void testFilter() {
+    void testFilter() {
         // Данные
         BookFilterDto filterDto = new BookFilterDto();
         filterDto.setAuthorFirstName("Лев");

@@ -7,7 +7,6 @@ import com.pet.Bookshop.dto.TokenDto;
 import com.pet.Bookshop.dto.UserInfoDto;
 import com.pet.Bookshop.service.MyUserDetailService;
 import com.pet.Bookshop.service.UserService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +27,13 @@ public class UserController implements UserApi {
     public ResponseEntity<?> signUpAndLogin(@RequestBody @Valid SignUpDto signUpDto) {
         TokenDto tokenResponse = userService.registerUser(signUpDto); // Регистрация пользователя
         return ResponseEntity.ok(tokenResponse);
+    }
+
+    //подтверждение регистрации
+    @PostMapping("/register/{generated-string}")
+    @Override
+    public UserInfoDto verifyRegistration(@PathVariable("generated-string") String uuid) {
+        return userService.verifyRegistration(uuid);
     }
 
     //вход jwt

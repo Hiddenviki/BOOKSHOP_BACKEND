@@ -1,53 +1,122 @@
 package com.pet.Bookshop.service;
 
 import com.pet.Bookshop.dto.EmailDto;
+import com.pet.Bookshop.dto.SignUpDto;
+import com.pet.Bookshop.security.UUIDGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mail.MailSendException;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collections;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class EmailServiceTest {
+class EmailServiceTest {
     @Mock
-    private JavaMailSender emailSender; //No ParameterResolver registered for parameter
+    private MailProperties mailProperties;
     @Mock
-    private MailService mailService;
+    private UUIDGenerator uuidGenerator;
+    @Mock
+    private JavaMailSender emailSender;
     @InjectMocks
     private EmailService emailService;
 
     @Test
-    public void testSendSimpleMessage_Success() {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("victoryagraz@example.com");
-        message.setSubject("Test subject");
+    void testCreateRegistrationMessage() {
+        // Создание тестовых данных
+        SignUpDto signUpDto = new SignUpDto();
+        signUpDto.setLogin("testuser");
+        signUpDto.setEmail("testuser@example.com");
 
-        when(mailService.createAdminMessage(any())).thenReturn(message);
+        // Установка поведения для mock объекта mailProperties
+        when(mailProperties.getProperties()).thenReturn(Collections.singletonMap("registration-text", "Hello, {0}. Welcome to our platform!"));
 
-        emailService.sendAdminEmail(new EmailDto("victoryagraz@example.com", "Test subject", "Test message"));
+        // Вызов тестируемого метода
+        SimpleMailMessage message = emailService.createRegistrationMessage(signUpDto);
 
-        verify(emailSender, times(1)).send(message);
+        // Проверка результатов
+        assertEquals(mailProperties.getUsername(), message.getFrom());
+        assertEquals("Registration", message.getSubject());
+        assertEquals("Hello, testuser. Welcome to our platform!", message.getText());
     }
 
     @Test
-    public void testSendSimpleMessage_Failure() {
+    void testCreateAdminMessage() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        // Создание тестовых данных
+        EmailDto emailDto = new EmailDto();
+        emailDto.setTo("to@example.com");
+        emailDto.setSubject("Test Subject");
+        emailDto.setText("Test message body");
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("victoryagraz@example.com");
-        message.setSubject("Test subject");
+        // Установка поведения
+        when(mailProperties.getUsername()).thenReturn("from@example.com");
 
-        when(mailService.createAdminMessage(any())).thenReturn(message);
+        // добираемся до приватного метода
+        Method createAdminMessageMethod = EmailService.class.getDeclaredMethod("createAdminMessage", EmailDto.class);
+        createAdminMessageMethod.setAccessible(true);
 
-        doThrow(new MailSendException("Симуляция отправки письма не получилась")).when(emailSender).send(message);
+        // Вызов метода
+        SimpleMailMessage message = (SimpleMailMessage) createAdminMessageMethod.invoke(emailService, emailDto);
 
-        assertThrows(MailSendException.class, () -> emailService.sendAdminEmail(new EmailDto("receiver@example.com", "Test subject", "Test message")));
+        // Проверка результатов
+        assertEquals("from@example.com", message.getFrom());
+        assertEquals("Test Subject", message.getSubject());
+        assertEquals("Test message body", message.getText());
+    }
+
+    @Test
+    void testSendSimpleMessage() {
+        // Подготовка тестовых данных
+        SimpleMailMessage testMessage = new SimpleMailMessage();
+        testMessage.setTo("recipient@example.com");
+        testMessage.setSubject("Test Subject");
+        testMessage.setText("Test message body");
+
+        // Установка поведения
+        doNothing().when(emailSender).send(testMessage);
+
+        // Вызов метода
+        assertDoesNotThrow(() -> emailService.sendSimpleMessage(testMessage));
+
+        // Проверка вызова метода
+        verify(emailSender, times(1)).send(testMessage);
+    }
+
+    @Test
+    void testSendAdminEmail() {
+        // Подготовка тестовых данных
+        EmailDto testEmailDto = new EmailDto();
+        testEmailDto.setTo("admin@example.com");
+        testEmailDto.setSubject("Admin Test Subject");
+        testEmailDto.setText("Admin Test message body");
+
+        // Установка поведения
+        when(mailProperties.getUsername()).thenReturn("from@example.com");
+
+        SimpleMailMessage testMessage = new SimpleMailMessage();
+        testMessage.setTo(testEmailDto.getTo());
+        testMessage.setSubject(testEmailDto.getSubject());
+        testMessage.setText(testEmailDto.getText());
+
+        // Установка поведения JavaMailSender mock объекта
+        doNothing().when(emailSender).send(any(SimpleMailMessage.class));
+
+        // Вызов тестируемого метода
+        String result = emailService.sendAdminEmail(testEmailDto);
+
+        // Проверка результата
+        assertEquals("Email successfully sent to recipient: admin@example.com", result);
+
     }
 
 

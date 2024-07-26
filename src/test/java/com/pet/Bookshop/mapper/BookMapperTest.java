@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class BookMapperTest {
+class BookMapperTest {
 
     private final BookMapper bookMapper = Mappers.getMapper(BookMapper.class);;
 

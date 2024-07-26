@@ -1,6 +1,7 @@
 package com.pet.Bookshop.entity;
 
 import com.pet.Bookshop.enums.Roles;
+import com.pet.Bookshop.security.EncryptConverter;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,6 +24,7 @@ public class User {
     @Column(name = "password", length = 1000)
     private String password;
 
+    @Convert(converter = EncryptConverter.class)
     @Column(name = "email", nullable = false)
     private String email;
 

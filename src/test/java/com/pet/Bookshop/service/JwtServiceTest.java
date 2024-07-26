@@ -19,7 +19,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class JwtServiceTest {
+class JwtServiceTest {
 
     @Mock
     private User user;

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserMapperTest {
+class UserMapperTest {
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;

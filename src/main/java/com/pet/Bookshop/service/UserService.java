@@ -3,15 +3,24 @@ package com.pet.Bookshop.service;
 import com.pet.Bookshop.dto.SignInDto;
 import com.pet.Bookshop.dto.SignUpDto;
 import com.pet.Bookshop.dto.TokenDto;
+import com.pet.Bookshop.dto.UserInfoDto;
+import com.pet.Bookshop.entity.PostponedEmail;
 import com.pet.Bookshop.entity.User;
+import com.pet.Bookshop.enums.Roles;
+import com.pet.Bookshop.mapper.UserInfoMapper;
 import com.pet.Bookshop.mapper.UserMapper;
+import com.pet.Bookshop.repository.PostponedEmailRepository;
 import com.pet.Bookshop.repository.UserRepository;
+import com.pet.Bookshop.security.UUIDGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,43 +38,34 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtUtil;
     private final AuthenticationManager authenticationManager;
-
-    private final MailService mailService;
-
     private final EmailService emailService;
+    private final UserInfoMapper userInfoMapper;
+    private final UUIDGenerator uuidGenerator;
+    private final PostponedEmailRepository postponedEmailRepository;
 
 
     // Регистрация нового пользователя с выдачей JWT-токена
     @Transactional
     public TokenDto registerUser(SignUpDto signUpDto) {
-        // Проверяем наличие пользователя с таким email или login в базе данных и соответствие паролей
         validateSignUpDto(signUpDto);
 
+        log.info("UserService-registerUser: Создание пользователя с email: {}", signUpDto.getEmail());
+
+        User user = userMapper.toUserFromSignUpDto(signUpDto);
+        userRepository.save(user);
+
         try {
-            log.info("UserService-registerUserAndGetToken: Создаём пользователя с email {}", signUpDto.getEmail());
-
-            User user = userMapper.toUserFromSignUpDto(signUpDto);
-            userRepository.save(user);
-
-            log.info("UserService-registerUserAndGetToken: создали юзера его email: {}, дата: {}", user.getEmail(), user.getCreatedDate());
-
-            //создаем JWT-токен
-            String jwtToken = jwtUtil.generateJwtToken(user);
-
-            //отправляем письмо на почту о регистрации
-            SimpleMailMessage message = mailService.createRegistrationMessage(signUpDto);
-            emailService.sendSimpleMessage(message);
-
-            return new TokenDto(jwtToken); // Возвращаем JWT-токен Dto
-
-
-        } catch (RuntimeException e) {
-            log.error("UserService-registerUserAndGetToken: Возникла ошибка при регистрации пользователя: ", e);
-            throw new RuntimeException("Не удалось зарегистрировать пользователя: ", e);
+            sendRegistrationEmail(signUpDto);
+        } catch (MailException exception) {
+            log.error("UserService-registerUser: Ошибка отправки письма при регистрации");
+            createPostponedRegistrationEmail(signUpDto);
         }
 
+        String jwtToken = jwtUtil.generateJwtToken(user);
 
+        return new TokenDto(jwtToken);
     }
+
 
     //вход
     @Transactional(readOnly = true)
@@ -94,6 +94,32 @@ public class UserService {
                 .collect(Collectors.toList());
 
     }
+
+    //подтверждение пользователя по ссылке из почты
+    public UserInfoDto verifyRegistration(String givenUuid) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        if (user.getRole() == Roles.GUEST) {
+            String generatedUuid = uuidGenerator.generateUUIDFromValue(user.getLogin()).toString();
+
+            if (generatedUuid.equals(givenUuid)) {
+                user.setRole(Roles.USER);
+                User savedUser = userRepository.save(user);
+
+                log.info("Регистрация пользователя с Id {} подтверждена с ролью {}", savedUser.getId(), savedUser.getRole());
+
+                return userInfoMapper.toUserInfoDto(savedUser);
+            } else {
+                log.error("UUID не совпадают для пользователя с логином {} - Expected: '{}', Given: '{}'", user.getLogin(), generatedUuid, givenUuid);
+                throw new IllegalArgumentException("UUIDs do not match");
+            }
+        } else {
+            log.error("Пользователь {} уже подтвердил регистрацию с ролью '{}'", user.getLogin(), user.getRole());
+            throw new IllegalStateException("Регистрация уже подтверждена");
+        }
+    }
+
 
     //проверки
     private void validateSignUpDto(SignUpDto signUpDto) {
@@ -132,5 +158,18 @@ public class UserService {
         }
     }
 
+    //отправка регистрационного сообщения
+    private void sendRegistrationEmail(SignUpDto signUpDto) {
+        SimpleMailMessage message = emailService.createRegistrationMessage(signUpDto);
+        emailService.sendSimpleMessage(message);
+    }
+
+    //создание отложенного письма при проблемах с отправкой
+    private void createPostponedRegistrationEmail(SignUpDto signUpDto) {
+        PostponedEmail postponedEmail = new PostponedEmail();
+        postponedEmail.setLogin(signUpDto.getLogin());
+        postponedEmail.setTopic("Registration");
+        postponedEmailRepository.save(postponedEmail);
+    }
 
 }

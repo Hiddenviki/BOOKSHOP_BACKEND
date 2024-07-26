@@ -5,9 +5,9 @@ import com.pet.Bookshop.dto.SignUpDto;
 import com.pet.Bookshop.dto.UserInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -37,6 +37,14 @@ public interface UserApi {
             summary = "Информация о всех пользователях"
     )
     List<SignInDto> getUsers();
+
+    @Operation(
+            description = "Подтверждение регистрации пользователя",
+            summary = "Подтверждение регистрации"
+    )
+    UserInfoDto verifyRegistration(
+            @Parameter(description = "UUID пользователя")
+            String uuid);
 
     @Operation(
             description = "Информация о текущем пользователе",

@@ -3,7 +3,6 @@ package com.pet.Bookshop.controller;
 import com.pet.Bookshop.api.EmailApi;
 import com.pet.Bookshop.dto.EmailDto;
 import com.pet.Bookshop.service.EmailService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
