@@ -4,7 +4,6 @@ import com.pet.Bookshop.dto.BookDto;
 import com.pet.Bookshop.dto.filter.BookFilterDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;

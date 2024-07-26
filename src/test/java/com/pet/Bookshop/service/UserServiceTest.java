@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+class UserServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -38,7 +38,7 @@ public class UserServiceTest {
     @Mock
     private AuthenticationManager authenticationManager;
     @Mock
-    private MailService mailService;
+    private EmailService mailService;
     @Mock
     private EmailService emailService;
     @InjectMocks

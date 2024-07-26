@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AuthorMapperTest {
+class AuthorMapperTest {
     //вызываем AuthorMapper через getMapper
     private final AuthorMapper authorMapper = Mappers.getMapper(AuthorMapper.class);
 

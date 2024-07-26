@@ -18,15 +18,11 @@ public abstract class UserMapper {
 
     //вход возвращает дто
     @Mapping(target = "password", ignore = true) //ну пароль не дадим фронту
-    @Mapping(target = "login", source = "login")
     @Mapping(target = "id", expression = "java(user.getId())")
     @Mapping(target = "email", expression = "java(user.getEmail())")
-//    @Mapping(target = "role", expression = "java(com.pet.Bookshop.enums.Roles.USER)")
     public abstract SignInDto toSignInDtoFromUser(User user);
 
     //регистрация из дто в user
-    @Mapping(target = "email", source = "email")
-    @Mapping(target = "login", source = "login")
     @Mapping(target = "active", constant = "true")
     @Mapping(target = "role", expression = "java(com.pet.Bookshop.enums.Roles.GUEST)")
     public abstract User toUserFromSignUpDto(SignUpDto dto);

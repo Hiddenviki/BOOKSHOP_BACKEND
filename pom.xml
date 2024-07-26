@@ -24,11 +24,12 @@
         <lombok.version>1.18.32</lombok.version>
         <spring.boot.version>3.2.5</spring.boot.version>
         <hibernate.version>6.1.6.Final</hibernate.version>
+        <!--рабочая версия для jasypt+hibernate НЕ ВЫШЕ 6.0.0.Alpha2-->
         <spring.security.version>6.3.0</spring.security.version>
         <jjwt.version>0.11.5</jjwt.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <starter-mail.version>3.3.0</starter-mail.version>
-        <jasypt.version>3.0.5</jasypt.version>
+        <jasypt.version>2.1.2</jasypt.version>
     </properties>
     <dependencies>
         <dependency>
@@ -150,6 +151,13 @@
             <version>2.0.9</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt-hibernate5</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
 
     </dependencies>
 

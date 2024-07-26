@@ -11,7 +11,7 @@ spring:
     protocol: smtp
     tls: true
     properties:
-      registration-text: "Welcome {0}, follow the link below to finish your registration: "
+      registration-text: "Welcome {0}, follow the link below to finish your registration: localhost:8081/users/register/{1} "
     properties.mail.smtp:
       auth: true
       starttls.enable: true
@@ -34,6 +34,7 @@ spring:
     consumer:
       group-id: bookshop-consumer
 
+
 server:
   port: 8081
 
@@ -41,3 +42,9 @@ springdoc:
   swagger-ui:
     disable-swagger-default-url: true
     path: /openapi
+
+encryption:
+  enabled: true
+
+scheduler:
+  enabled: true

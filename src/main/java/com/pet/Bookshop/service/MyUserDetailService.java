@@ -39,7 +39,7 @@ public class MyUserDetailService implements UserDetailsService {
     public UserInfoDto showUserInfo() {
         //загружаем юзера
         UserDetails userDetails = getCurrentUser();
-        return getUserInfoDto(userDetails); //нужно ли сюда передвать userDetails в аргумент?
+        return getUserInfoDto(userDetails);
     }
 
     private UserInfoDto getUserInfoDto(UserDetails userDetails) {

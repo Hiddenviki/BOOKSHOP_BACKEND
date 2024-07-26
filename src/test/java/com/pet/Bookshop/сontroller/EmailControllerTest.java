@@ -17,14 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class EmailControllerTest {
+class EmailControllerTest {
     @Mock
     private EmailService emailService;
     @InjectMocks
     private EmailController emailController;
 
     @Test
-    public void testSendAdminEmail_WhenValidEmailDtoProvided_ExpectSuccess() {
+    void testSendAdminEmail_WhenValidEmailDtoProvided_ExpectSuccess() {
 
         EmailDto emailDto = new EmailDto("test@example.com", "Test Subject", "Test email content");
 
@@ -38,7 +38,7 @@ public class EmailControllerTest {
     }
 
     @Test
-    public void testSendAdminEmail_WhenInvalidEmailDtoProvided_ExpectBadRequestException() {
+    void testSendAdminEmail_WhenInvalidEmailDtoProvided_ExpectBadRequestException() {
         EmailDto emailDto = new EmailDto("email", "Test Subject", "Test email content");
         when(emailService.sendAdminEmail(emailDto)).thenThrow(new MailSendException("Неправильный адрес email"));
 

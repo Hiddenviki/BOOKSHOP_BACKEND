@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
-public class AuthorControllerTest {
+class AuthorControllerTest {
     @Mock
     private AuthorService authorService;
     @InjectMocks
@@ -24,7 +24,7 @@ public class AuthorControllerTest {
 
 
     @Test
-    public void testGetAllAuthors() {
+    void testGetAllAuthors() {
         // данные
         List<AuthorDto> expectedAuthors = new ArrayList<>(); // Prepare expected data
         when(authorService.getAllAuthors()).thenReturn(expectedAuthors);
@@ -37,7 +37,7 @@ public class AuthorControllerTest {
     }
 
     @Test
-    public void testGetAuthorById() {
+    void testGetAuthorById() {
         // данные
         Long authorId = 1L;
         AuthorDto expectedAuthor = new AuthorDto();
@@ -53,7 +53,7 @@ public class AuthorControllerTest {
     }
 
     @Test
-    public void testCreateAuthor() {
+    void testCreateAuthor() {
         // данный
         NewAuthorDto newAuthorDto = new NewAuthorDto(1L, "Лев", "Толстой");
         AuthorDto expectedAuthor = new AuthorDto();
