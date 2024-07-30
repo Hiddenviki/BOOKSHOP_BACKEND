@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class BookFilterDto {
-
     @Schema(example = "Война и Мир")
     private String name;
     @Schema(example = "Просвящение")

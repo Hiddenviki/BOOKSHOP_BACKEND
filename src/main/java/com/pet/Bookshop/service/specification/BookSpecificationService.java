@@ -19,9 +19,7 @@ public class BookSpecificationService {
             List<Predicate> predicates = new ArrayList<>();
 
             if (!StringUtils.isEmpty(filter.getName())) {
-                //predicates.add(criteriaBuilder.like(root.get("name"), "%" + filter.getName() + "%"));
                 predicates.add(criteriaBuilder.like(root.get(Book_.name), "%" + filter.getName() + "%"));
-
             }
 
             if (!StringUtils.isEmpty(filter.getBrand())) {
@@ -37,12 +35,10 @@ public class BookSpecificationService {
             }
 
             if (!StringUtils.isEmpty(filter.getAuthorFirstName())) {
-                //predicates.add(criteriaBuilder.like(root.get("author").get("firstName"), "%" + filter.getAuthorFirstName() + "%"));
                 predicates.add(criteriaBuilder.like(root.get(Book_.author).get(Author_.firstName), "%" + filter.getAuthorFirstName() + "%"));
             }
 
             if (!StringUtils.isEmpty(filter.getAuthorLastName())) {
-                //predicates.add(criteriaBuilder.like(root.get("author").get("lastName"), "%" + filter.getAuthorLastName() + "%"));
                 predicates.add(criteriaBuilder.like(root.get(Book_.author).get(Author_.lastName), "%" + filter.getAuthorFirstName() + "%"));
             }
 

@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 @Converter
 @RequiredArgsConstructor
 public class EncryptConverter implements AttributeConverter<String,String> {
-
     private final MyStringEncryptor stringEncryptor;
 
     @Override

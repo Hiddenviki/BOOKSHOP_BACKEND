@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthorDto {
-
     @Schema(example = "1")
     private Long id; //id автора
 

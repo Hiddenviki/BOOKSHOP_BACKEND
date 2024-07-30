@@ -1,7 +1,6 @@
 package com.pet.Bookshop.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
-
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppEncryptConfig {
-
     // Шифрование для параметров из application.yml
     //испольует не мой интерфейс а jasypt.encryption.StringEncryptor
     @Bean("jasyptStringEncryptor")
@@ -31,5 +29,4 @@ public class AppEncryptConfig {
 
         return encryptor;
     }
-
 }

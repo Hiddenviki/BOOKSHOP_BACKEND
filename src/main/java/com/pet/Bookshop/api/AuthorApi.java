@@ -10,7 +10,6 @@ import java.util.List;
 
 @Tag(name = "Author API", description = "API для работы с авторами")
 public interface AuthorApi {
-
     @Operation(
             description = "Возвращает список всех авторов",
             summary = "Возвращает список всех авторов"

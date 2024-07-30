@@ -3,6 +3,7 @@ package com.pet.Bookshop.service;
 import com.pet.Bookshop.dto.BookDto;
 import com.pet.Bookshop.dto.UserInfoDto;
 import com.pet.Bookshop.entity.Author;
+import com.pet.Bookshop.enums.Roles;
 import com.pet.Bookshop.mapper.BookMapper;
 import com.pet.Bookshop.mapper.UserInfoMapper;
 import com.pet.Bookshop.repository.AuthorRepository;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,6 @@ public class MyUserDetailService implements UserDetailsService {
     }
 
     private UserInfoDto getUserInfoDto(UserDetails userDetails) {
-
         if(!(userDetails instanceof MyUserDetails myUserDetails)) {
             throw new RuntimeException("Ошибка при получении информации о пользователе getUserInfoDto");
         }
@@ -58,20 +58,15 @@ public class MyUserDetailService implements UserDetailsService {
     }
 
     private List<BookDto> getBooksFromAuthor(UserInfoDto user) {
-        if (isAuthor(user.getId())) {
+        if (Objects.equals(user.getRole(), Roles.AUTHOR.toString())) {
             return authorRepository.findById(user.getId())
                     .map(Author::getBooks)
                     .orElse(Collections.emptyList())
                     .stream()
-                    .map(bookMapper::toDto)
-                    .collect(Collectors.toList());
+                    .map(bookMapper::toDto).toList();
         }
-        return Collections.emptyList();
-    }
 
-    //является ли пользователь автором
-    private boolean isAuthor(Long id) {
-        return authorRepository.existsById(id);
+        return Collections.emptyList();
     }
 
     //метод с jwt информацией
@@ -80,5 +75,4 @@ public class MyUserDetailService implements UserDetailsService {
 
         return (UserDetails) authentication.getPrincipal();
     }
-
 }

@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/emails")
 @RequiredArgsConstructor
 public class EmailController implements EmailApi {
-
     private final EmailService emailService;
 
 /**
  * отправка сообщения от имени администратора
- * @param emailDto
  * @return String
  * * */
     @PostMapping("/send")
@@ -27,6 +25,4 @@ public class EmailController implements EmailApi {
     public String sendAdminEmail(@RequestBody @Valid EmailDto emailDto) {
         return emailService.sendAdminEmail(emailDto);
     }
-
-
 }

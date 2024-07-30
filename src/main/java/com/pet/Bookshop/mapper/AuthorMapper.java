@@ -9,12 +9,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Mapper
 public abstract class AuthorMapper {
-
     @Mapping(target = "id", expression = "java(dto.getId())")
     @Mapping(target = "firstName", expression = "java(dto.getFirstName())")
     @Mapping(target = "lastName", expression = "java(dto.getLastName())")
@@ -27,9 +25,6 @@ public abstract class AuthorMapper {
     @Named("extractBookIds")
     public List<Long> extractBookIds(List<Book> books) {
         return books.stream()
-                .map(Book::getId)
-                .collect(Collectors.toList());
+                .map(Book::getId).toList();
     }
-
-
 }

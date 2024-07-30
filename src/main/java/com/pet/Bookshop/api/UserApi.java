@@ -7,13 +7,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 @Tag(name = "User API", description = "API для работы с пользователями")
 public interface UserApi {
-
     @Operation(
             description = "Регистрация и вход",
             summary = "Регистрация и вход"
@@ -51,5 +49,4 @@ public interface UserApi {
             summary = "Информация о текущем пользователе"
     )
     UserInfoDto showUserInfo();
-
 }

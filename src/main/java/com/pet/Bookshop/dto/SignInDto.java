@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Valid
 public class SignInDto {
-
     @Schema(example = "1")
     private Long id;
     @Schema(example = "victoryagraz@gmail.com")
@@ -35,5 +34,4 @@ public class SignInDto {
     @Size(min = 8, max = 50, message = "8<=Длина пароля<=50")
     @Schema(example = "password!")
     private String password;
-
 }

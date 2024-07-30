@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DBEncryptConfig {
-
     // Шифрование для базы данных
     @Bean
     @ConditionalOnExpression("${encryption.enabled} == true")

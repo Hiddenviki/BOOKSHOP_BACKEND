@@ -50,5 +50,4 @@ public class BookController implements BookApi {
     public List<BookDto> filter(@RequestBody BookFilterDto filter) {
         return bookService.filterBooks(filter);
     }
-
 }
