@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Valid
 public class BookDto {
-
     private Long id;
 
     @NotNull(message = "Заполните название книги")
@@ -39,5 +38,4 @@ public class BookDto {
     @Max(value = 1000, message = "Превышение максимального количества книг 1000")
     @Schema(example = "12")
     private Integer count; //количество книг
-
 }

@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Valid
 public class SignUpDto {
-
     @NotNull(message = "Заполните email")
     @NotBlank(message = "Заполните email")
     @Size(min = 1, max = 50, message = "1<=Длина email<=50")

@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Valid
 public class EmailDto {
-
     @NotNull(message = "Заполните email получателя")
     @NotBlank(message = "Заполните email получателя")
     @Size(min = 1, max = 50, message = "1<=Длина email<=50")
@@ -33,5 +32,4 @@ public class EmailDto {
     @NotBlank(message = "Заполните письмо")
     @Schema(example = "Hello, This is email api")
     String text;
-
 }

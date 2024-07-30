@@ -25,9 +25,11 @@ public class JWTFilter extends OncePerRequestFilter {
         this.myUserDetailService = myUserDetailService;
     }
 
-
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest httpServletRequest,
+                                    HttpServletResponse httpServletResponse,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
         String authHeader = httpServletRequest.getHeader("Authorization");
 
         // Проверяем, есть ли заголовок "Authorization" и начинается ли он с "Bearer ", что означает передачу токена

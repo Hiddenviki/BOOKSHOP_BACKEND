@@ -12,7 +12,6 @@ import java.util.Map;
 
 @Configuration
 public class KafkaTopicConfig {
-
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
 
@@ -27,5 +26,4 @@ public class KafkaTopicConfig {
     public NewTopic bookTopic() {
         return new NewTopic("BookTopic", 1, (short) 1);
     }
-
 }

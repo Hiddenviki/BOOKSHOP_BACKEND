@@ -17,7 +17,6 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
-
     //валидация полей
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -37,6 +36,7 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("Error: ", ex.getMessage());
+
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
@@ -45,6 +45,7 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleIllegalStateException(IllegalStateException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("Error: ", ex.getMessage());
+
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
@@ -54,6 +55,7 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleOtherExceptions(Exception ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("Error: ", ex.getMessage());
+
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
@@ -62,6 +64,7 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("Error:", "JWT token is expired: "+ ex.getMessage());
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
@@ -70,6 +73,7 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleMalformedJwtException(MalformedJwtException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("Error:", "Invalid JWT token format: "+ ex.getMessage());
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
@@ -78,6 +82,7 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleUnsupportedJwtException(UnsupportedJwtException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("Error:", "Unsupported JWT token: "+ ex.getMessage());
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
@@ -86,8 +91,7 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleJWTVerificationException(JWTVerificationException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("Error:", "JWT token verification failed: " + ex.getMessage());
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
-
-
 }

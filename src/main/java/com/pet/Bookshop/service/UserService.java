@@ -11,6 +11,7 @@ import com.pet.Bookshop.mapper.UserInfoMapper;
 import com.pet.Bookshop.mapper.UserMapper;
 import com.pet.Bookshop.repository.PostponedEmailRepository;
 import com.pet.Bookshop.repository.UserRepository;
+import com.pet.Bookshop.security.MyUserDetails;
 import com.pet.Bookshop.security.UUIDGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +66,6 @@ public class UserService {
         return new TokenDto(jwtToken);
     }
 
-
     //вход
     @Transactional(readOnly = true)
     public TokenDto login(SignInDto signInDto) {
@@ -78,48 +77,41 @@ public class UserService {
 
         // Аутентификация пользователя
         authenticateUser(signInDto);
-
         log.info("UserService-login: Вошёл юзер с id: {}", userDb.getId());
 
         String jwtToken = jwtUtil.generateJwtToken(userDb);
+
         return new TokenDto(jwtToken);
     }
-
 
     public List<SignInDto> getUsers() {
         log.info("UserService-getUsers: Смотрим на всех пользователей");
         //пробегаюсь по листу и делаю из него ДТО а потом опять делаю лист
         return userRepository.findAll().stream()
-                .map(userMapper::toSignInDtoFromUser)
-                .collect(Collectors.toList());
-
+                .map(userMapper::toSignInDtoFromUser).toList();
     }
 
-    //подтверждение пользователя по ссылке из почты
     public UserInfoDto verifyRegistration(String givenUuid) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
+        User user = getCurrentUser();
 
-        if (user.getRole() == Roles.GUEST) {
-            String generatedUuid = uuidGenerator.generateUUIDFromValue(user.getLogin()).toString();
+        validateRole(user, givenUuid);
 
-            if (generatedUuid.equals(givenUuid)) {
-                user.setRole(Roles.USER);
-                User savedUser = userRepository.save(user);
+        user.setRole(Roles.USER);
+        User savedUser = userRepository.save(user);
 
-                log.info("Регистрация пользователя с Id {} подтверждена с ролью {}", savedUser.getId(), savedUser.getRole());
+        log.info("Регистрация пользователя с Id {} подтверждена с ролью {}", savedUser.getId(), savedUser.getRole());
 
-                return userInfoMapper.toUserInfoDto(savedUser);
-            } else {
-                log.error("UUID не совпадают для пользователя с логином {} - Expected: '{}', Given: '{}'", user.getLogin(), generatedUuid, givenUuid);
-                throw new IllegalArgumentException("UUIDs do not match");
-            }
-        } else {
-            log.error("Пользователь {} уже подтвердил регистрацию с ролью '{}'", user.getLogin(), user.getRole());
-            throw new IllegalStateException("Регистрация уже подтверждена");
+        return userInfoMapper.toUserInfoDto(savedUser);
+    }
+
+    public void checkAndChangeUserRole() {
+        User user = getCurrentUser();
+
+        if (user.getRole() == Roles.USER) {
+            user.setRole(Roles.AUTHOR);
+            userRepository.save(user);
         }
     }
-
 
     //проверки
     private void validateSignUpDto(SignUpDto signUpDto) {
@@ -172,4 +164,23 @@ public class UserService {
         postponedEmailRepository.save(postponedEmail);
     }
 
+    private void validateRole(User user, String givenUuid) {
+        if (user.getRole() != Roles.GUEST) {
+            log.error("Пользователь {} уже подтвердил регистрацию с ролью '{}'", user.getLogin(), user.getRole());
+            throw new IllegalStateException("Регистрация уже подтверждена");
+        }
+
+        String generatedUuid = uuidGenerator.generateUUIDFromValue(user.getLogin()).toString();
+
+        if (!generatedUuid.equals(givenUuid)) {
+            log.error("UUID не совпадают для пользователя с логином {} - Expected: '{}', Given: '{}'", user.getLogin(), generatedUuid, givenUuid);
+            throw new IllegalArgumentException("UUIDs do not match");
+        }
+    }
+
+    private User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
+        return userDetails.getUser();
+    }
 }

@@ -10,7 +10,6 @@ import java.util.List;
 
 @Tag(name = "Book API", description = "API для работы с книгами")
 public interface BookApi {
-
     @Operation(
             description = "Возвращает список всех книг",
             summary = "Возвращает список всех книг"
@@ -46,5 +45,4 @@ public interface BookApi {
             summary = "Поиск книг по фильтрам"
     )
     List<BookDto> filter(@Parameter(description = "DTO фильтра") BookFilterDto filter);
-
 }

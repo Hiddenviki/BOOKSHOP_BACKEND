@@ -21,13 +21,10 @@ import java.util.Date;
 @Service
 @Slf4j
 public class JwtService {
-
     @Value("${spring.application.security.jwtSecret}")
     private String jwtSecret; //сЕкрЕтнаЯ сТроКа
-
     @Value("${spring.application.security.jwtExpirationMs}") //дата окончания
     private int jwtExpirationMs;
-
 
     //генерация токена
     public String generateJwtToken(User user) {
@@ -64,5 +61,4 @@ public class JwtService {
             return "";
         }
     }
-
 }

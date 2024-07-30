@@ -9,13 +9,16 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 public class UserDetailServiceConfig {
-
     @Bean
     UserDetailsService userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("user")
                 .password(bCryptPasswordEncoder.encode("userPass"))
                 .roles("USER")
+                .build());
+        manager.createUser(User.withUsername("author")
+                .password(bCryptPasswordEncoder.encode("authorPass"))
+                .roles("AUTHOR")
                 .build());
         manager.createUser(User.withUsername("guest")
                 .password(bCryptPasswordEncoder.encode("guestPass"))
@@ -32,6 +35,4 @@ public class UserDetailServiceConfig {
     BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(8);
     }
-
-
 }

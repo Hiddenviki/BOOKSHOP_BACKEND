@@ -21,9 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
-
     @Bean
     DaoAuthenticationProvider authenticationProvider(MyUserDetailService userDetailsService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -60,6 +59,8 @@ public class SecurityConfig {
                 .requestMatchers("/openapi").permitAll()
                 .requestMatchers(HttpMethod.DELETE).hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PATCH).hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE).hasAuthority("AUTHOR")
+                .requestMatchers(HttpMethod.PATCH).hasAuthority("AUTHOR")
                 .requestMatchers("/users/signUp").permitAll()
                 .requestMatchers("/users/signIn").permitAll()
                 .requestMatchers("/users/showUserInfo").authenticated()
@@ -71,8 +72,7 @@ public class SecurityConfig {
                 .and().exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
-
-
 }

@@ -11,12 +11,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class UserInfoDto {
-
     private Long id;
     private String login;
     private String email;
     private String role;
     private LocalDateTime createdDate;
     private List<BookDto> bookDto;
-
 }

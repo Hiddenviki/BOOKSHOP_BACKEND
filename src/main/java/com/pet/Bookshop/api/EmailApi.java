@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Email API", description = "API для работы с email")
 public interface EmailApi {
-
     @Operation(
             description = "Отправка письма администратором на почту",
             summary = "Отправка письма администратором на почту"
@@ -16,5 +15,4 @@ public interface EmailApi {
             @Parameter(description = "ДТО письма")
             EmailDto emailDto
     );
-
 }

@@ -13,7 +13,6 @@ import java.io.IOException;
 @Component
 @Slf4j
 public class UnauthorizedHandler implements AuthenticationEntryPoint {
-
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException {

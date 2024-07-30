@@ -18,5 +18,4 @@ public class PostponedEmail {
 
     @Column(name = "topic", nullable = false)
     private String topic;  // темы сообщения
-
 }

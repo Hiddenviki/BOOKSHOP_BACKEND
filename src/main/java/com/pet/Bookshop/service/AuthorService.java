@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +23,7 @@ public class AuthorService {
         log.info("AuthorService-getAllAuthors: Смотрим на всех авторов");
         //пробегаюсь по листу и делаю из него ДТО а потом опять делаю лист
         return authorRepository.findAll().stream()
-                .map(authorMapper::toDto)
-                .collect(Collectors.toList());
+                .map(authorMapper::toDto).toList();
     }
 
     public AuthorDto getAuthorById(Long id) {
@@ -44,7 +42,6 @@ public class AuthorService {
 
     }
 
-
     @Transactional
     public AuthorDto createAuthor(NewAuthorDto author) {
         if (author.getFirstName() == null || author.getLastName() == null) {
@@ -60,8 +57,4 @@ public class AuthorService {
 
         return authorMapper.toDto(newAuthor); // Возвращаем DTO сохраненного автора
     }
-
-
-
-
 }

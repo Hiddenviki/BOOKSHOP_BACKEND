@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewAuthorDto {
-
     @Schema(example = "1")
     private Long id; //id автора
 
@@ -18,5 +17,4 @@ public class NewAuthorDto {
 
     @Schema(example = "Толстой")
     private String lastName;
-
 }

@@ -38,6 +38,4 @@ public class AuthorController implements AuthorApi {
     public AuthorDto createAuthor(@Valid @RequestBody NewAuthorDto author) {
         return authorService.createAuthor(author);
     }
-
-
 }

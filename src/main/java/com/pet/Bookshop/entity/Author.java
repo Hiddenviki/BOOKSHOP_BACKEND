@@ -36,7 +36,6 @@ public class Author {
     //если книга не ссылается ни на одного автора то ее надо удалить
     private List<Book> books = new ArrayList<>();
 
-
     @Override
     public String toString() {
         return firstName + " " + lastName;

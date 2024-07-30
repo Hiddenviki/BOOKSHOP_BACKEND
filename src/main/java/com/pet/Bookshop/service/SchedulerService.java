@@ -50,6 +50,7 @@ public class SchedulerService {
         SignUpDto signUpDto = new SignUpDto();
         signUpDto.setEmail(user.getEmail());
         signUpDto.setLogin(user.getLogin());
+
         return signUpDto;
     }
 }

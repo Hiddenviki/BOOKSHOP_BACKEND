@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Mapper
 public abstract class UserMapper {
-
     @Autowired
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -34,5 +33,4 @@ public abstract class UserMapper {
             user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword1()));
         }
     }
-
 }
