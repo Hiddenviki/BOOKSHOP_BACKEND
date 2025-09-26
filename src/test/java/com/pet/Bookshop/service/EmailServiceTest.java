@@ -50,29 +50,29 @@ class EmailServiceTest {
         assertEquals("Hello, testuser. Welcome to our platform!", message.getText());
     }
 
-    @Test
-    void testCreateAdminMessage() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        // Создание тестовых данных
-        EmailDto emailDto = new EmailDto();
-        emailDto.setTo("to@example.com");
-        emailDto.setSubject("Test Subject");
-        emailDto.setText("Test message body");
-
-        // Установка поведения
-        when(mailProperties.getUsername()).thenReturn("from@example.com");
-
-        // добираемся до приватного метода
-        Method createAdminMessageMethod = EmailService.class.getDeclaredMethod("createAdminMessage", EmailDto.class);
-        createAdminMessageMethod.setAccessible(true);
-
-        // Вызов метода
-        SimpleMailMessage message = (SimpleMailMessage) createAdminMessageMethod.invoke(emailService, emailDto);
-
-        // Проверка результатов
-        assertEquals("from@example.com", message.getFrom());
-        assertEquals("Test Subject", message.getSubject());
-        assertEquals("Test message body", message.getText());
-    }
+//    @Test
+//    void testCreateAdminMessage() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+//        // Создание тестовых данных
+//        EmailDto emailDto = new EmailDto();
+//        emailDto.setTo("to@example.com");
+//        emailDto.setSubject("Test Subject");
+//        emailDto.setText("Test message body");
+//
+//        // Установка поведения
+//        when(mailProperties.getUsername()).thenReturn("from@example.com");
+//
+//        // добираемся до приватного метода
+//        Method createAdminMessageMethod = EmailService.class.getDeclaredMethod("createAdminMessage", EmailDto.class);
+//        createAdminMessageMethod.setAccessible(true);
+//
+//        // Вызов метода
+//        SimpleMailMessage message = (SimpleMailMessage) createAdminMessageMethod.invoke(emailService, emailDto);
+//
+//        // Проверка результатов
+//        assertEquals("from@example.com", message.getFrom());
+//        assertEquals("Test Subject", message.getSubject());
+//        assertEquals("Test message body", message.getText());
+//    }
 
     @Test
     void testSendSimpleMessage() {
@@ -117,6 +117,30 @@ class EmailServiceTest {
         // Проверка результата
         assertEquals("Email successfully sent to recipient: admin@example.com", result);
 
+    }
+
+    @Test
+    void testCreateAdminMessage() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final var emailDto = new EmailDto("to@example.com", "Test Subject", "Test actualMessage body");
+        final var expectedMessage =  new SimpleMailMessage();
+        expectedMessage.setFrom("from@example.com");
+        expectedMessage.setTo(emailDto.getTo());
+        expectedMessage.setSubject(emailDto.getSubject());
+        expectedMessage.setText(emailDto.getText());
+
+        when(mailProperties.getUsername()).thenReturn("from@example.com");
+
+        // добираемся до приватного метода
+        Method createAdminMessageMethod = EmailService.class.getDeclaredMethod("createAdminMessage", EmailDto.class);
+        createAdminMessageMethod.setAccessible(true);
+
+        // Вызов метода
+        final var actualMessage = (SimpleMailMessage) createAdminMessageMethod.invoke(emailService, emailDto);
+
+        // Проверка результатов
+        assertEquals(expectedMessage.getFrom(), actualMessage.getFrom());
+        assertEquals(expectedMessage.getSubject(), actualMessage.getSubject());
+        assertEquals(expectedMessage.getText(), actualMessage.getText());
     }
 
 

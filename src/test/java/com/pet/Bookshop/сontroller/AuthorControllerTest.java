@@ -54,7 +54,6 @@ class AuthorControllerTest {
 
     @Test
     void testCreateAuthor() {
-        // данный
         NewAuthorDto newAuthorDto = new NewAuthorDto(1L, "Лев", "Толстой");
         AuthorDto expectedAuthor = new AuthorDto();
 

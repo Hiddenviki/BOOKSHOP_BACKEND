@@ -6,10 +6,8 @@ import com.pet.Bookshop.dto.filter.BookFilterDto;
 import com.pet.Bookshop.entity.Author;
 import com.pet.Bookshop.entity.Book;
 import com.pet.Bookshop.entity.User;
-import com.pet.Bookshop.enums.Roles;
 import com.pet.Bookshop.mapper.BookMapper;
 import com.pet.Bookshop.repository.BookRepository;
-import com.pet.Bookshop.repository.UserRepository;
 import com.pet.Bookshop.security.MyUserDetails;
 import com.pet.Bookshop.service.specification.BookSpecificationService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
