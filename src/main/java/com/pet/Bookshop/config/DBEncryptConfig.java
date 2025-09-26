@@ -5,7 +5,7 @@ import com.pet.Bookshop.security.encrypt.FakeStringEncryptor;
 import com.pet.Bookshop.security.encrypt.MyStringEncryptor;
 import com.pet.Bookshop.security.encrypt.RealStringEncryptor;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.jasypt.hibernate5.encryptor.HibernatePBEStringEncryptor;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
 import org.jasypt.salt.RandomSaltGenerator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -17,8 +17,8 @@ public class DBEncryptConfig {
     // Шифрование для базы данных
     @Bean
     @ConditionalOnExpression("${encryption.enabled} == true")
-    HibernatePBEStringEncryptor hibernateEncryptor() {
-        HibernatePBEStringEncryptor encryptor = new HibernatePBEStringEncryptor();
+    StandardPBEStringEncryptor hibernateEncryptor() {
+        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         Dotenv dotenv = Dotenv.configure().load();
 
         String jasyptAlgorithm = dotenv.get("JASYPT_ALGORITHM");
@@ -37,7 +37,7 @@ public class DBEncryptConfig {
     // Реальный шифровальщик строк, если encryption.enabled = true
     @Bean
     @ConditionalOnExpression("${encryption.enabled} == true")
-    MyStringEncryptor realStringEncryptor(HibernatePBEStringEncryptor hibernateEncryptor) {
+    MyStringEncryptor realStringEncryptor(StandardPBEStringEncryptor hibernateEncryptor) {
         return new RealStringEncryptor(hibernateEncryptor);
     }
 
