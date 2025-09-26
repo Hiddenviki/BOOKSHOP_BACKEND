@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.pet</groupId>
     <artifactId>Bookshop</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Bookshop</name>
     <description>Demo project for Spring Boot</description>
     <properties>
@@ -22,14 +22,6 @@
         <maven.version>3.8.1</maven.version>
         <apache.common.version>3.14.0</apache.common.version>
         <lombok.version>1.18.32</lombok.version>
-        <spring.boot.version>3.2.5</spring.boot.version>
-        <hibernate.version>6.1.6.Final</hibernate.version>
-        <!--рабочая версия для jasypt+hibernate НЕ ВЫШЕ 6.0.0.Alpha2-->
-        <spring.security.version>6.3.0</spring.security.version>
-        <jjwt.version>0.11.5</jjwt.version>
-        <java-jwt.version>4.4.0</java-jwt.version>
-        <starter-mail.version>3.3.0</starter-mail.version>
-        <jasypt.version>2.1.2</jasypt.version>
     </properties>
     <dependencies>
         <dependency>
@@ -72,7 +64,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>${hibernate.version}</version>
+            <version>6.1.6.Final</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -80,92 +72,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>${apache.common.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jjwt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jjwt.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>${jjwt.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>${java-jwt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-            <version>${starter-mail.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>${jasypt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.cdimascio</groupId>
-            <artifactId>dotenv-java</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.6.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-            <version>3.2.0</version>
-        </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.powermock</groupId>-->
-<!--            <artifactId>powermock-module-junit4</artifactId>-->
-<!--            <version>2.0.9</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit5</artifactId>
-            <version>3.18.3</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jasypt</groupId>
-            <artifactId>jasypt-hibernate5</artifactId>
-            <version>1.9.3</version>
-        </dependency>
-
-
     </dependencies>
 
     <build>
@@ -173,14 +79,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.baeldung.spring.kafka.KafkaApplication</mainClass>
-                </configuration>
+                <version>3.2.5</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.version}</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -203,20 +107,17 @@
                         <path>
                             <groupId>org.hibernate</groupId>
                             <artifactId>hibernate-jpamodelgen</artifactId>
-                            <version>${hibernate.version}</version>
+                            <version>6.1.6.Final</version>
                         </path>
                     </annotationProcessorPaths>
+                   <!--<compilerArgument>-proc:only</compilerArgument>-->
                     <compilerArgs>
                         <compilerArg>
                             -Amapstruct.defaultComponentModel=spring
+                            <!-- -Ajavax.persistence.metamodel.only-->
                         </compilerArg>
                     </compilerArgs>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.github.ulisesbocchio</groupId>
-                <artifactId>jasypt-maven-plugin</artifactId>
-                <version>3.0.3</version>
             </plugin>
         </plugins>
     </build>
